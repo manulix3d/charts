@@ -22,6 +22,16 @@
       "external": true,
       "syncBranch": "main"
     },
+        {
+      "name": "traefik-crds",
+      "chartPath": "charts/traefik-crds",
+      "repository": "traefik/traefik-helm-chart",
+      "sourceChartPath": "traefik/crds",
+      "valuesFile": "values.yaml",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "master"
+    },
     {
       "name": "traefik",
       "chartPath": "charts/traefik",
