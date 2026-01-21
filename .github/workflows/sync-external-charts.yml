@@ -38,8 +38,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir -p charts/${{ github.event.inputs.chart_name || '' }}
           node .github/scripts/sync-external-charts.js ${{ github.event.inputs.chart_name || '' }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+
+      - name: Update chart dependencies
+        run: |
+          # Update dependencies for all synced charts
+          for chart in charts/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Updating dependencies for $(basename $chart)..."
+              helm dependency update "$chart" 2>&1 || echo "⚠️  No dependencies or update failed for $(basename $chart)"
+            fi
+          done
 
       - name: Check for changes
         id: check_changes
@@ -60,8 +74,7 @@ jobs:
       - name: Commit and push changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          git add -A
-          git commit -m "chore: sync external charts from upstream" -m "Synchronized charts from upstream repositories"
+          git commit -m "chore: sync external charts from upstream" -m "Synchronized charts from upstream repositories and updated dependencies"
           git push
 
       - name: Create Pull Request
@@ -76,9 +89,10 @@ jobs:
             This PR syncs external charts from their upstream repositories.
 
             - **Trigger**: Scheduled daily check or manual trigger
-            - **Changes**: Copied latest chart versions from upstream
+            - **Changes**: Copied latest chart versions from upstream and updated dependencies
+            - **Dependencies**: Helm dependency updates included
 
-            Please review the changes before merging. After merging, the `update-charts` workflow will automatically update image tags.
+            Please review the changes before merging. After merging, the `update-local-charts` workflow will automatically update image tags.
           branch: chore/sync-external-charts
           delete-branch: true
           labels: 'automated,charts,external-sync'
@@ -89,6 +103,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
             echo "✅ Chart updates synced from upstream" >> $GITHUB_STEP_SUMMARY
+            echo "📦 Dependencies updated via helm dependency update" >> $GITHUB_STEP_SUMMARY
           else
             echo "ℹ️ No external chart updates available" >> $GITHUB_STEP_SUMMARY
           fi
