@@ -53,11 +53,22 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet; then
+          # Stage all changes in charts folder
+          git add -A charts/ 2>/dev/null || true
+          git add -A .github/config/ 2>/dev/null || true
+
+          # Unstage node_modules if staged
+          git reset HEAD node_modules/ 2>/dev/null || true
+          git reset HEAD package-lock.json 2>/dev/null || true
+          
+          # Check if staged changes are present
+          if git diff-index --quiet --cached HEAD; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No changes detected"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            git diff
+            echo "✅ Changes detected:"
+            git diff --cached --name-only
           fi
 
       - name: Configure Git
