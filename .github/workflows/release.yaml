@@ -1,14 +1,11 @@
 name: Release Helm Charts
 
 on:
-  push:
-    branches:
-      - main
-    # Nur wenn etwas in charts/ ändert
-    paths:
-      - 'charts/**'
-      - '.github/workflows/release.yml'
-  workflow_dispatch:  # Manual trigger
+  workflow_run:
+    workflows: ["Update Local Charts"]
+    types:
+      - completed
+  workflow_dispatch:
 
 jobs:
   release:
@@ -21,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Wichtig für Versioning
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
