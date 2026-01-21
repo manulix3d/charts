@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: backup ConfigMap
+
+templates:
+  - backup-configmap.yaml
+
+tests:
+  - it: Should not create backup ConfigMap
+    set:
+      backup.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: Should render ConfigMap with default values
+    set:
+      backup.enabled: true
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: "level: INFO"
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: "monitor-interval: 1s"
+
+
+  - it: Should render ConfigMap with global access/secret keys
+    set:
+      backup.enabled: true
+      backup.secret.accessKey: xxxxxxxxxxxxxxxxxxxABCD0
+      backup.secret.secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx98765
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'access-key-id: "\$ACCESS_KEY"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'secret-access-key: "\$SECRET_KEY"'
+
+  - it: Should render with multiple replicas
+    set:
+      backup.enabled: true
+      backup.secret.replicas:
+        - accessKey: foo
+          secretKey: bar
+          region: us-west-1
+          bucket: test-bucket-1
+          path: /bucket/1/path
+          endpoint: s3.example.com
+          forcePathStyle: true
+          skipVerify: false
+        - bucket: test-bucket-2
+          path: /bucket/2/path
+    asserts:
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'access-key-id: "\$REPLICA_0_ACCESS_KEY"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'secret-access-key: "\$REPLICA_0_SECRET_KEY"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'region: "us-west-1"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'bucket: "test-bucket-1"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'path: "/bucket/1/path"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'endpoint: "s3.example.com"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'force-path-style: true'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'skip-verify: false'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'bucket: "test-bucket-2"'
+      - matchRegex:
+          path: data["litestream.yaml"]
+          pattern: 'path: "/bucket/2/path"'

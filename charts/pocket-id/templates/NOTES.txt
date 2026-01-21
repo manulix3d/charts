@@ -1,0 +1,7 @@
+{{- $maxReplicas := int 1 }}
+{{- if (gt (int .Values.replicaCount) ($maxReplicas) ) }}
+WARNING!
+
+Your set the replica count to >1. Application does not sync Data between replicas, so you will see 
+inconsistency and you might observe data loss.
+{{- end }}

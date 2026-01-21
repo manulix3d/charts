@@ -1,0 +1,162 @@
+{{- $provider := .Values.database.provider | default "sqlite" }}
+{{- $replicaCount := int (.Values.replicaCount | default 1) }}
+{{- if and (eq $provider "sqlite") (gt $replicaCount 1) }}
+  {{- fail (printf "Invalid configuration: .Values.replicaCount is %d but must be 1 when .Values.database.provider is 'sqlite'." $replicaCount) }}
+{{- end }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "pocket-id.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pocket-id.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "pocket-id.fullname" . }}
+  replicas: {{ $replicaCount }}
+  {{- if .Values.updateStrategy }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pocket-id.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "pocket-id.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "pocket-id.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      {{- if .Values.backup.enabled }}
+        - name: config
+          configMap:
+            name: {{ include "pocket-id.backupConfig" . }}
+      {{- end }}
+      {{- if (and .Values.persistence.data.enabled (not (eq .Values.persistence.data.existingClaim ""))) }}
+        - name: {{ include "pocket-id.pvcData" . }}
+          persistentVolumeClaim:
+            claimName: {{ include "pocket-id.pvcData" . }}
+      {{- else if not .Values.persistence.data.enabled }}
+        - name: {{ include "pocket-id.pvcData" . }}
+          emptyDir: {}
+      {{- end }}
+      {{- if .Values.backup.enabled }}
+      initContainers:
+        - name: restorer
+          securityContext:
+            {{- toYaml .Values.backup.securityContext | nindent 12 }}
+          image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
+          imagePullPolicy: {{ .Values.backup.image.pullPolicy }}
+          args:
+            - restore
+            - -if-replica-exists=true
+            - -config=/mnt/config/litestream.yaml
+            - /app/data/pocket-id.db
+          resources:
+            {{- toYaml .Values.pocketID.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "pocket-id.pvcData" . }}
+              mountPath: /app/data
+            - name: config
+              mountPath: /mnt/config
+          envFrom:
+            - secretRef:
+                name: {{ include "pocket-id.backupSecret" . }}
+      {{- end }}
+      containers:
+        - name: pocket-id
+          securityContext:
+            {{- toYaml .Values.pocketID.securityContext | nindent 12 }}
+          image: "{{ .Values.pocketID.image.repository }}:{{ .Values.pocketID.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.pocketID.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 1411
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          startupProbe:
+            {{- toYaml .Values.startupProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.pocketID.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "pocket-id.pvcData" . }}
+              mountPath: /app/data
+          envFrom:
+            - secretRef:
+                name: {{ include "pocket-id.secret" . }}
+            - configMapRef:
+                name: {{ include "pocket-id.config" . }}
+        {{- if .Values.backup.enabled }}
+        - name: replication
+          securityContext:
+            {{- toYaml .Values.backup.securityContext | nindent 12 }}
+          image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag }}"
+          imagePullPolicy: {{ .Values.backup.image.pullPolicy }}
+          args:
+            - replicate
+            - -config=/mnt/config/litestream.yaml
+          resources:
+            {{- toYaml .Values.pocketID.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "pocket-id.pvcData" . }}
+              mountPath: /app/data
+            - name: config
+              mountPath: /mnt/config
+          ports:
+            - name: backup-metrics
+              containerPort: 8081
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "pocket-id.backupSecret" . }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if (and .Values.persistence.data.enabled (eq .Values.persistence.data.existingClaim "")) }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "pocket-id.pvcData" . }}
+        labels:
+          {{- include "pocket-id.selectorLabels" . | nindent 10 }}
+        {{- if .Values.persistence.data.annotations }}
+        annotations:
+          {{- toYaml .Values.persistence.data.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.data.accessMode }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.data.size }}
+        {{- if .Values.persistence.data.storageClass }}
+        storageClassName: {{ .Values.persistence.data.storageClass }}
+        {{- end }}
+  {{- end }}
