@@ -63,6 +63,11 @@ jobs:
         run: |
           # Stage all changes in charts folder
           git add -A charts/ 2>/dev/null || true
+          git add -A .github/config/ 2>/dev/null || true
+
+          # Unstage node_modules wenn es mitgenommen wurde
+          git reset HEAD node_modules/ 2>/dev/null || true
+          git reset HEAD package-lock.json 2>/dev/null || true
           
           # Check ob es staged changes gibt
           if git diff-index --quiet --cached HEAD; then
