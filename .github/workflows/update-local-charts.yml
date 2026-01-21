@@ -1,4 +1,4 @@
-name: Update Chart Dependencies
+name: Update Local Charts
 
 on:
   schedule:
@@ -39,6 +39,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           node .github/scripts/update-local-charts.js
+
+      - name: Update chart dependencies
+        run: |
+          # Update dependencies for all synced charts
+          for chart in charts/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Updating dependencies for $(basename $chart)..."
+              helm dependency update "$chart" 2>&1 || echo "⚠️  No dependencies or update failed for $(basename $chart)"
+            fi
+          done
 
       - name: Check for changes
         id: check_changes
