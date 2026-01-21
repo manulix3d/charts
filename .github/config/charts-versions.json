@@ -1,0 +1,38 @@
+{
+  "charts": [
+    {
+      "name": "pocket-id",
+      "chartPath": "charts/pocket-id",
+      "repository": "pocket-id/pocket-id",
+      "imagePrefix": "ghcr.io/pocket-id/pocket-id",
+      "valuesFile": "values.yaml",
+      "imageKey": "pockedID.image.tag",
+      "enabled": true,
+      "external": false
+    },
+    {
+      "name": "authentik",
+      "chartPath": "charts/authentik",
+      "repository": "goauthentik/helm",
+      "sourceChartPath": "authentik",
+      "imagePrefix": "ghcr.io/goauthentik/server",
+      "valuesFile": "values.yaml",
+      "imageKey": "global.image.tag",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "main"
+    },
+    {
+      "name": "traefik",
+      "chartPath": "traefik",
+      "repository": "traefik/traefik-helm-chart",
+      "sourceChartPath": "traefik",
+      "imagePrefix": "traefik",
+      "valuesFile": "values.yaml",
+      "imageKey": "global.image.tag",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "master"
+    }
+  ]
+}
