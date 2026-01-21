@@ -24,7 +24,7 @@
     },
     {
       "name": "traefik",
-      "chartPath": "traefik",
+      "chartPath": "charts/traefik",
       "repository": "traefik/traefik-helm-chart",
       "sourceChartPath": "traefik",
       "imagePrefix": "traefik",
