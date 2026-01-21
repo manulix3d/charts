@@ -1,13 +1,15 @@
 apiVersion: v2
 type: application
 name: pocket-id
-description: |
-  pocket-id is a simple and easy-to-use OIDC provider that allows users to authenticate
+description: >
+  pocket-id is a simple and easy-to-use OIDC provider that allows users to
+  authenticate
+
   with their passkeys to your services.
 home: https://pocket-id.org
 icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
-version: 2.0.1
-appVersion: "v2.2.0"
+version: 2.0.2
+appVersion: v2.2.0
 sources:
   - https://github.com/pocket-id/pocket-id
 keywords:
