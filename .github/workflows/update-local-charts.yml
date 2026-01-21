@@ -32,7 +32,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: npm install @octokit/rest semver
+        run: npm install @octokit/rest semver yaml
 
       - name: Update charts
         env:
