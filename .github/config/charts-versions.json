@@ -14,7 +14,7 @@
       "name": "authentik",
       "chartPath": "charts/authentik",
       "repository": "goauthentik/helm",
-      "sourceChartPath": "authentik",
+      "sourceChartPath": "charts/authentik",
       "imagePrefix": "ghcr.io/goauthentik/server",
       "valuesFile": "values.yaml",
       "imageKey": "global.image.tag",
