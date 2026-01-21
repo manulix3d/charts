@@ -9,6 +9,9 @@ on:
       chart_name:
         description: 'Specific chart to sync (leave empty for all)'
         required: false
+  push:
+    branches:
+      - main
 
 jobs:
   sync-charts:
