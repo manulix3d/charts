@@ -1,6 +1,111 @@
 apiVersion: v1
 entries:
+  authentik:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: upgrade to authentik 2025.12.1
+      artifacthub.io/images: |
+        - name: authentik
+          image: ghcr.io/goauthentik/server:2025.12.1
+          whitelisted: true
+        - name: authentik-outpost-proxy
+          image: ghcr.io/goauthentik/proxy:2025.12.1
+          whitelisted: true
+        - name: authentik-outpost-ldap
+          image: ghcr.io/goauthentik/ldap:2025.12.1
+          whitelisted: true
+        - name: authentik-outpost-radius
+          image: ghcr.io/goauthentik/radius:2025.12.1
+          whitelisted: true
+        - name: authentik-outpost-rac
+          image: ghcr.io/goauthentik/rac:2025.12.1
+          whitelisted: true
+      artifacthub.io/license: GPL
+      artifacthub.io/links: |
+        - name: GitHub
+          url: https://github.com/goauthentik/authentik
+        - name: Docs
+          url: https://goauthentik.io/docs/
+      artifacthub.io/maintainers: |
+        - name: authentik Team
+          email: hello@goauthentik.io
+          url: https://goauthentik.io
+      artifacthub.io/screenshots: |
+        - title: User interface
+          url: https://docs.goauthentik.io/img/screen_apps_light.jpg
+        - title: Admin interface
+          url: https://docs.goauthentik.io/img/screen_admin_light.jpg
+    apiVersion: v2
+    appVersion: 2025.12.1
+    created: "2026-01-21T20:14:52.695418089Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    - alias: serviceAccount
+      condition: serviceAccount.create
+      name: authentik-remote-cluster
+      repository: https://charts.goauthentik.io
+      version: 2.1.0
+    description: authentik is an open-source Identity Provider focused on flexibility
+      and versatility
+    digest: 174b971137209410758e91466829be2cbe0c24d433ce70b18b3a4ac342b88efa
+    home: https://goauthentik.io
+    icon: https://goauthentik.io/img/icon.png
+    keywords:
+    - authentication
+    - directory
+    - identity
+    - idp
+    - ldap
+    - oauth
+    - oidc
+    - proxy
+    - saml
+    - scim
+    - single-sign-on
+    - sp
+    - sso
+    maintainers:
+    - email: hello@goauthentik.io
+      name: authentik Team
+      url: https://goauthentik.io
+    name: authentik
+    sources:
+    - https://goauthentik.io/docs/
+    - https://github.com/goauthentik/authentik
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/authentik-2025.12.1/authentik-2025.12.1.tgz
+    version: 2025.12.1
   pocket-id:
+  - apiVersion: v2
+    appVersion: v2.2.0
+    created: "2026-01-21T20:14:52.92408433Z"
+    description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
+      users to authenticate with their passkeys to your services. '
+    digest: 482cccc41dba124754455b216fe2d4219c66369acc58be4c291c47886d31ab89
+    home: https://pocket-id.org
+    icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
+    keywords:
+    - idp
+    - oidc
+    - passkeys
+    - sso
+    - pocket-id
+    maintainers:
+    - email: manulix3d@manulix3d.de
+      name: manulix3d
+      url: https://charts.manulix3d.de
+    name: pocket-id
+    sources:
+    - https://github.com/pocket-id/pocket-id
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/pocket-id-2.0.2/pocket-id-2.0.2.tgz
+    version: 2.0.2
   - apiVersion: v2
     appVersion: v2.2.0
     created: "2026-01-21T12:50:20.630742091Z"
@@ -51,4 +156,69 @@ entries:
     urls:
     - https://github.com/manulix3d/charts/releases/download/pocket-id-2.0.0/pocket-id-2.0.0.tgz
     version: 2.0.0
-generated: "2026-01-21T12:50:20.630750316Z"
+  traefik:
+  - annotations:
+      artifacthub.io/changes: |
+        - "revert(CRDs): use Traefik Hub v3.18.0 compatible crds"
+        - "fix(security): set the seccomp profile to RuntimeDefault"
+        - "fix(CRDs): enforce the fact that this Chart does not support Traefik Hub v3.19.0"
+        - "feat(deps): update traefik docker tag to v3.6.6"
+        - "chore(release): publish traefik 38.0.2 and crds 1.13.1"
+    apiVersion: v2
+    appVersion: v3.6.7
+    created: "2026-01-21T20:14:53.162077725Z"
+    description: A Traefik based Kubernetes ingress controller
+    digest: 878aaf357db4afe72bba0c7872879c9a65f5b99eb88e57cb53c90f2b6ee3ec9f
+    home: https://traefik.io/
+    icon: https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo.png
+    keywords:
+    - traefik
+    - ingress
+    - networking
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: michel.loiseleur@traefik.io
+      name: mloiseleur
+    - email: remi.buisson@traefik.io
+      name: darkweaver87
+    - name: jnoordsij
+    name: traefik
+    sources:
+    - https://github.com/traefik/traefik-helm-chart
+    - https://github.com/traefik/traefik
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/traefik-38.0.2/traefik-38.0.2.tgz
+    version: 38.0.2
+  traefik-crds:
+  - annotations:
+      artifacthub.io/changes: |
+        - "revert(CRDs): use Traefik Hub v3.18.0 compatible crds"
+        - "docs(CRDs): add deprecation notice"
+        - "chore(release): publish traefik 38.0.2 and crds 1.13.1"
+    apiVersion: v2
+    created: "2026-01-21T20:14:53.426768013Z"
+    description: A Traefik based Kubernetes ingress controller
+    digest: 51fe01b7a4a2a0e975b8aa3d62c91d89223db16c5a938d0bd88435eec494017a
+    home: https://traefik.io/
+    icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
+    keywords:
+    - traefik
+    - ingress
+    - networking
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: michel.loiseleur@traefik.io
+      name: mloiseleur
+    - email: remi.buisson@traefik.io
+      name: darkweaver87
+    - name: jnoordsij
+    name: traefik-crds
+    sources:
+    - https://github.com/traefik/traefik-helm-chart
+    - https://github.com/traefik/traefik
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/traefik-crds-1.13.1/traefik-crds-1.13.1.tgz
+    version: 1.13.1
+generated: "2026-01-21T20:14:53.42678761Z"
