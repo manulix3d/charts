@@ -30,6 +30,12 @@ jobs:
         with:
           version: 'latest'
 
+      - name: Prepare Helm repositories
+        run: |
+          # Authentik
+          helm repo add authentik https://charts.goauthentik.io
+          helm repo update
+
       - name: Lint Charts
         run: |
           SKIP_CHARTS="traefik"
