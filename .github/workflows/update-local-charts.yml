@@ -1,9 +1,10 @@
 name: Update Local Charts
 
 on:
-  schedule:
-    # Täglich um 10 Uhr CET prüfen
-    - cron: '0 9 * * *'
+  workflow_run:
+    workflows: ["Sync External Charts"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       force_check:
