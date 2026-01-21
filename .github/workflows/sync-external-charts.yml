@@ -65,11 +65,11 @@ jobs:
           git add -A charts/ 2>/dev/null || true
           git add -A .github/config/ 2>/dev/null || true
 
-          # Unstage node_modules wenn es mitgenommen wurde
+          # Unstage node_modules if staged
           git reset HEAD node_modules/ 2>/dev/null || true
           git reset HEAD package-lock.json 2>/dev/null || true
           
-          # Check ob es staged changes gibt
+          # Check if staged changes are present
           if git diff-index --quiet --cached HEAD; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
             echo "ℹ️ No changes detected"
