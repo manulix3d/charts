@@ -1,0 +1,48 @@
+name: Release Helm Charts
+
+on:
+  push:
+    branches:
+      - main
+    # Nur wenn etwas in charts/ ändert
+    paths:
+      - 'charts/**'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Wichtig für Versioning
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+
+      - name: Lint Charts
+        run: |
+          for chart in charts/*/; do
+            echo "Linting $chart"
+            helm lint "$chart"
+          done
+
+      - name: Release Charts
+        uses: helm/chart-releaser-action@v1.7.0
+        with:
+          charts_dir: charts
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
