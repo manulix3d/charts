@@ -63,6 +63,16 @@
       "enabled": true,
       "external": true,
       "syncBranch": "main"
+    },
+    {
+      "name": "postgres-ha",
+      "chartPath": "charts/postgres-ha",
+      "repository": "bitnami/charts",
+      "sourceChartPath": "bitnami/postgresql-ha",
+      "valuesFile": "values.yaml",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "main"
     }
   ]
 }
