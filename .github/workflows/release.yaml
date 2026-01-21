@@ -34,7 +34,7 @@ jobs:
         run: |
           for chart in charts/*/; do
             echo "Linting $chart"
-            helm lint "$chart"
+            helm lint "$chart" --strict=false
           done
 
       - name: Release Charts
