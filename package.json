@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@octokit/rest": "^22.0.1",
+    "yaml": "^2.8.2"
+  }
+}
