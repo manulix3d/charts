@@ -53,6 +53,16 @@
       "enabled": true,
       "external": true,
       "syncBranch": "master"
+    },
+    {
+      "name": "vaultwarden",
+      "chartPath": "charts/vaultwarden",
+      "repository": "guerzon/vaultwarden",
+      "sourceChartPath": "charts/vaultwarden",
+      "valuesFile": "values.yaml",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "main"
     }
   ]
 }
