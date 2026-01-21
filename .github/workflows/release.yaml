@@ -34,6 +34,7 @@ jobs:
         run: |
           # Authentik
           helm repo add authentik https://charts.goauthentik.io
+          helm repo add grafana https://grafana.github.io/helm-charts
           helm repo update
 
       - name: Lint Charts
@@ -55,3 +56,4 @@ jobs:
           charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          
