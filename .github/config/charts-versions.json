@@ -63,6 +63,16 @@
       "enabled": true,
       "external": true,
       "syncBranch": "main"
+    },
+    {
+      "name": "cloudnative-pg",
+      "chartPath": "charts/cloudnative-pg",
+      "repository": "cloudnative-pg/charts",
+      "sourceChartPath": "charts/cloudnative-pg",
+      "valuesFile": "values.yaml",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "main"
     }
   ]
 }
