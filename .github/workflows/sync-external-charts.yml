@@ -38,6 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          mkdir -p charts/${{ github.event.inputs.chart_name || '' }}
           node .github/scripts/sync-external-charts.js ${{ github.event.inputs.chart_name || '' }}
 
       - name: Check for changes
