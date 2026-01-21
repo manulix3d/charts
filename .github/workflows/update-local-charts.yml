@@ -1,0 +1,93 @@
+name: Update Chart Dependencies
+
+on:
+  schedule:
+    # Täglich um 10 Uhr CET prüfen
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      force_check:
+        description: 'Force check all charts'
+        required: false
+        default: 'false'
+
+jobs:
+  update-charts:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node: [20]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install @octokit/rest semver
+
+      - name: Update charts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node .github/scripts/update-local-charts.js
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            git diff
+          fi
+
+      - name: Configure Git
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git add -A
+          git commit -m "chore: update chart versions and images" -m "Updated charts to latest upstream versions"
+          git push
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: 'chore: update chart versions and images'
+          title: 'chore: update chart versions and images'
+          body: |
+            ## Chart Updates
+
+            This PR updates chart versions and container images based on upstream releases.
+
+            - **Trigger**: Scheduled daily check or manual trigger
+            - **Changes**: Updated image tags and chart versions
+
+            Please review the changes before merging.
+          branch: chore/update-charts
+          delete-branch: true
+          labels: 'automated,charts'
+
+      - name: Summary
+        run: |
+          echo "## Chart Update Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ Updates found and committed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ No updates available" >> $GITHUB_STEP_SUMMARY
+          fi
