@@ -2,8 +2,7 @@ name: Sync External Charts
 
 on:
   schedule:
-    # Täglich um 10 Uhr CET prüfen
-    - cron: '0 9 * * *'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
     inputs:
       chart_name:
