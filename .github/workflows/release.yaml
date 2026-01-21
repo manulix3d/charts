@@ -26,7 +26,7 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4.3.0
         with:
           version: 'latest'
 
@@ -34,7 +34,7 @@ jobs:
         run: |
           for chart in charts/*/; do
             echo "Linting $chart"
-            helm lint "$chart" --strict=false
+            helm lint "$chart"
           done
 
       - name: Release Charts
