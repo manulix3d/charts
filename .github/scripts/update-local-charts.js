@@ -209,13 +209,23 @@ async function updateChart(chartConfig) {
   // Aktualisiere Image Tag in values.yaml
   setNestedProperty(values, imageKey, imageTag);
 
+  // Speichere alte AppVersion für Vergleich
+  const oldAppVersion = chartMeta.appVersion;
+
   // Aktualisiere AppVersion in Chart.yaml
   chartMeta.appVersion = releaseTag;
 
-  // Aktualisiere Chart Version (patch bump)
+  // Aktualisiere Chart Version nur wenn AppVersion sich geändert hat
   const currentChartVersion = chartMeta.version;
-  const newChartVersion = incrementPatchVersion(currentChartVersion);
-  chartMeta.version = newChartVersion;
+  let newChartVersion = currentChartVersion;
+
+  if (oldAppVersion !== releaseTag) {
+    newChartVersion = incrementPatchVersion(currentChartVersion);
+    chartMeta.version = newChartVersion;
+    console.log(`      Chart Version: ${currentChartVersion} → ${newChartVersion}`);
+  } else {
+    console.log(`      Chart Version: ${currentChartVersion} (unchanged - AppVersion already up to date)`);
+  }
 
   // Schreibe Dateien zurück
   fs.writeFileSync(chartMetaPath, YAML.stringify(chartMeta));
@@ -223,15 +233,14 @@ async function updateChart(chartConfig) {
 
   console.log(`   ✅ Updated successfully`);
   console.log(`      Image: ${currentImageTag} → ${imageTag}`);
-  console.log(`      AppVersion: ${releaseTag}`);
-  console.log(`      Chart Version: ${currentChartVersion} → ${newChartVersion}`);
+  console.log(`      AppVersion: ${oldAppVersion} → ${releaseTag}`);
 
   return {
     updated: true,
     chart: name,
     imageUpdate: { from: currentImageTag, to: imageTag },
-    appVersionUpdate: releaseTag,
-    chartVersionUpdate: { from: currentChartVersion, to: newChartVersion },
+    appVersionUpdate: { from: oldAppVersion, to: releaseTag },
+    chartVersionUpdate: oldAppVersion !== releaseTag ? { from: currentChartVersion, to: newChartVersion } : null,
   };
 }
 
@@ -256,7 +265,7 @@ async function main() {
 
   const configPath = path.join(
     process.cwd(),
-    '.github/config/charts-versions.json'
+    '.github/config/chart-versions.json'
   );
 
   if (!fs.existsSync(configPath)) {
@@ -287,8 +296,16 @@ async function main() {
     console.log('\n✅ Updated charts:');
     updated.forEach((r) => {
       console.log(
-        `  • ${r.chart}: ${r.imageUpdate.from} → ${r.imageUpdate.to} (AppVersion: ${r.appVersionUpdate})`
+        `  • ${r.chart}: ${r.imageUpdate.from} → ${r.imageUpdate.to}`
       );
+      console.log(
+        `      AppVersion: ${r.appVersionUpdate.from} → ${r.appVersionUpdate.to}`
+      );
+      if (r.chartVersionUpdate) {
+        console.log(
+          `      Chart Version: ${r.chartVersionUpdate.from} → ${r.chartVersionUpdate.to}`
+        );
+      }
     });
   }
 
