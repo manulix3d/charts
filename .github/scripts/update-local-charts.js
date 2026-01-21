@@ -265,7 +265,7 @@ async function main() {
 
   const configPath = path.join(
     process.cwd(),
-    '.github/config/chart-versions.json'
+    '.github/config/charts-versions.json'
   );
 
   if (!fs.existsSync(configPath)) {
