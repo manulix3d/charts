@@ -133,7 +133,7 @@ data:
   SSO_AUDIENCE_TRUSTED: {{ .Values.sso.audienceTrusted | quote }}
   SSO_CLIENT_ID: {{ .Values.sso.clientID | quote }}
   SSO_CLIENT_SECRET: {{ .Values.sso.clientSecret | quote }}
-  SSO_MASTER_PASSWORD_POLICY: {{ .Values.sso.masterPasswordPolicy | toJson }}
+  SSO_MASTER_PASSWORD_POLICY: {{ .Values.sso.masterPasswordPolicy | toJson | quote }}
   SSO_AUTH_ONLY_NOT_SESSION: {{ .Values.sso.authOnlyNotSession | quote }}
   SSO_CLIENT_CACHE_EXPIRATION: {{ .Values.sso.clientCacheExpiration | quote }}
   SSO_DEBUG_TOKENS: {{ .Values.sso.debugTokens | quote }}
