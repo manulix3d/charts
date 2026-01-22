@@ -39,7 +39,7 @@
       "sourceChartPath": "charts/vaultwarden",
       "valuesFile": "values.yaml",
       "enabled": true,
-      "external": true,
+      "external": false,
       "syncBranch": "main"
     },
     {
