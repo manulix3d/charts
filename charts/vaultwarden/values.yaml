@@ -201,7 +201,14 @@ sso:
   audienceTrusted: ^$
   clientID: 11111
   clientSecret: AAAAAAAAAAAAAAAAAAAAAAAA
-  masterPasswordPolicy: '{"enforceOnLogin":false,"minComplexity":3,"minLength":12,"requireLower":false,"requireNumbers":false,"requireSpecial":false,"requireUpper":false}'
+  masterPasswordPolicy:
+    enforceOnLogin: false
+    minComplexity: 3
+    minLength: 12
+    requireLower: false
+    requireNumbers: false
+    requireSpecial: false
+    requireUpper: false
   authOnlyNotSession: false
   clientCacheExpiration: 0
   debugTokens: false
