@@ -36,6 +36,7 @@ jobs:
           helm repo add authentik https://charts.goauthentik.io
           helm repo add grafana https://grafana.github.io/helm-charts
           helm repo add grafana-dashboards https://cloudnative-pg.github.io/grafana-dashboards
+          helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo update
 
       - name: Lint Charts
