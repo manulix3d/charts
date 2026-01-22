@@ -73,6 +73,16 @@
       "enabled": true,
       "external": true,
       "syncBranch": "main"
+    },
+    {
+      "name": "authelia",
+      "chartPath": "charts/authelia",
+      "repository": "authelia/chartrepo",
+      "sourceChartPath": "charts/authelia",
+      "valuesFile": "values.yaml",
+      "enabled": true,
+      "external": true,
+      "syncBranch": "master"
     }
   ]
 }
