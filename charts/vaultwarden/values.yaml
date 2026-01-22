@@ -814,3 +814,20 @@ ingress:
   ##   - Add support for using cert-manager.
   ##   - Support for multiple TLS hostnames.
   ##
+
+sso:
+  enabled: false
+  ssoOnly: false
+  signupsMatchEmail: true
+  allowUnknownEmailVerification: false
+  authority: https://auth.example.com
+  scopes: email profile
+  authorizeExtraParams: access_type=offline&prompt=consent
+  pkce: true
+  audienceTrusted: ^$
+  clientID: 11111
+  clientSecret: AAAAAAAAAAAAAAAAAAAAAAAA
+  masterPasswordPolicy: {"enforceOnLogin":false,"minComplexity":3,"minLength":12,"requireLower":false,"requireNumbers":false,"requireSpecial":false,"requireUpper":false}
+  authOnlyNotSession: false
+  clientCacheExpiration: 0
+  debugTokens: false
