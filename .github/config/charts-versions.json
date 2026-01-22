@@ -25,12 +25,12 @@
     {
       "name": "vaultwarden",
       "chartPath": "charts/vaultwarden",
-      "repository": "guerzon/vaultwarden",
-      "sourceChartPath": "charts/vaultwarden",
+      "repository": "dani-garcia/vaultwarden",
+      "imagePrefix": "ghcr.io/dani-garcia/vaultwarden",
       "valuesFile": "values.yaml",
+      "imageKey": "image.tag",
       "enabled": true,
-      "external": false,
-      "syncBranch": "main"
+      "external": false
     },
     {
       "name": "cloudnative-pg",
