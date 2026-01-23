@@ -205,6 +205,24 @@ entries:
     urls:
     - https://github.com/manulix3d/charts/releases/download/cloudnative-pg-0.27.0/cloudnative-pg-0.27.0.tgz
     version: 0.27.0
+  homebox:
+  - apiVersion: v2
+    appVersion: v0.22.3
+    created: "2026-01-23T12:09:19.674178163Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    description: A Helm chart for HomeBox, the inventory and organization system built
+      for the Home User.
+    digest: 7c1323f4786adc3dbb9548c57b55f30cd0a10b02fde44a2307602c54aaef8946
+    icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
+    name: homebox
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/homebox-0.3.1/homebox-0.3.1.tgz
+    version: 0.3.1
   pocket-id:
   - apiVersion: v2
     appVersion: v2.2.0
@@ -461,4 +479,4 @@ entries:
     urls:
     - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.34.4/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-22T20:32:54.731192846Z"
+generated: "2026-01-23T12:09:19.674200064Z"
