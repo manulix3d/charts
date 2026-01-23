@@ -20,5 +20,5 @@ helm repo update
 
 ## Search Charts
 ```bash
-helm search repo myrepo
+helm search repo manulix3d
 ```
