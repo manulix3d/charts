@@ -208,6 +208,23 @@ entries:
   homebox:
   - apiVersion: v2
     appVersion: v0.22.3
+    created: "2026-01-23T13:42:31.608532394Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    description: A Helm chart for HomeBox, the inventory and organization system built
+      for the Home User.
+    digest: 9edd93d8e77b82484ebd6f1379ee15be2d559fe5d9fa44c2fee6c31e3db23841
+    icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
+    name: homebox
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/homebox-0.3.3/homebox-0.3.3.tgz
+    version: 0.3.3
+  - apiVersion: v2
+    appVersion: v0.22.3
     created: "2026-01-23T12:42:24.981743408Z"
     dependencies:
     - condition: postgresql.enabled
@@ -384,6 +401,29 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.2
+    created: "2026-01-23T13:42:32.056991884Z"
+    description: vaultwarden is an unofficial Bitwarden-compatible server written
+      in Rust
+    digest: 306ec0fc1ec1f80a352c193f1257415db35552d993d5fc9234f490fff9c5fb58
+    icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/refs/heads/main/resources/vaultwarden-icon.svg
+    keywords:
+    - Rust
+    - vaultwarden
+    kubeVersion: '>=1.12.0-0'
+    maintainers:
+    - email: manulix3d@manulix3d.de
+      name: manulix3d
+      url: https://charts.manulix3d.de
+    name: vaultwarden
+    sources:
+    - https://github.com/manulix3d/charts/tree/main/charts/vaultwarden
+    - https://github.com/dani-garcia/vaultwarden
+    type: application
+    urls:
+    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.35.4/vaultwarden-0.35.4.tgz
+    version: 0.35.4
+  - apiVersion: v2
+    appVersion: 1.35.2
     created: "2026-01-22T20:32:54.731160837Z"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
@@ -496,4 +536,4 @@ entries:
     urls:
     - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.34.4/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-23T12:42:24.981767973Z"
+generated: "2026-01-23T13:42:32.05703242Z"
