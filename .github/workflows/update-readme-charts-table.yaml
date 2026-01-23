@@ -1,0 +1,132 @@
+name: Update README Chart Table
+
+on:
+  push:
+    paths:
+    - 'charts/**/Chart.yaml'
+    branches:
+    - main
+  workflow_dispatch:
+
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: pip install pyyaml
+
+    - name: Generate updated README.md
+      run: |
+        python3 << 'EOF'
+        import os
+        import yaml
+        import re
+
+        charts = []
+
+        # Alle Chart.yaml einlesen
+        for chart_dir in sorted(os.listdir('charts')):
+            chart_file = f'charts/{chart_dir}/Chart.yaml'
+            if os.path.isfile(chart_file):
+                with open(chart_file, 'r') as f:
+                    data = yaml.safe_load(f)
+                
+                name = data.get('name', chart_dir)
+                version = data.get('version', '-')
+                app_version = str(data.get('appVersion', '-'))
+                description = data.get('description', '-')[:85]
+                
+                charts.append({
+                    'name': name,
+                    'version': version,
+                    'app_version': app_version,
+                    'description': description
+                })
+
+        # Alphabetisch sortieren
+        charts.sort(key=lambda x: x['name'].lower())
+
+        # Tabelle generieren
+        header = """| Chart                    | Chart Version | App Version | Description                                                                           |
+        | :----------------------- | :------------ | :---------- | ------------------------------------------------------------------------------------- |"""
+
+        rows = []
+        for c in charts:
+            row = f"| manulix3d/{c['name']:<14} | {c['version']:<13} | {c['app_version']:<11} | {c['description']:<85} |"
+            rows.append(row)
+
+        new_table = header + '\n' + '\n'.join(rows)
+
+        # README einlesen und Tabelle ersetzen
+        with open('README.md', 'r') as f:
+            readme = f.read()
+
+        pattern = r'\| Chart\s+\|.*?\n\| :-+.*?\n(?:\| manulix3d/.*?\n)+'
+        new_readme = re.sub(pattern, new_table + '\n', readme)
+
+        # README schreiben
+        with open('README.md', 'w') as f:
+            f.write(new_readme)
+
+        print("✅ Table updated:")
+        print(new_table)
+        EOF
+
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        fetch-depth: 0
+
+    - name: Copy README to gh-pages
+      run: |
+        # README.md zu gh-pages kopieren (überschreibt bestehende)
+        cp README.md gh-pages/README.md
+
+        # Zeige Diff
+        echo "📋 gh-pages README changes:"
+        diff -u gh-pages/README.md README.md || true
+
+    - name: Commit to main branch
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+        if ! git diff --quiet README.md; then
+          git add README.md
+          git commit -m "docs: update chart table in README"
+          git push
+          echo "✅ Updated main branch"
+        else
+          echo "ℹ️ No changes in main"
+        fi
+
+    - name: Commit to gh-pages branch
+      run: |
+        cd gh-pages
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+        if ! git diff --quiet README.md; then
+          git add README.md
+          git commit -m "docs: update chart table in README"
+          git push origin gh-pages
+          echo "✅ Updated gh-pages"
+        else
+          echo "ℹ️ No changes in gh-pages"
+        fi
