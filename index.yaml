@@ -39,7 +39,7 @@ entries:
         url: https://keybase.io/authelia/pgp_keys.asc
     apiVersion: v2
     appVersion: 4.39.13
-    created: "2026-01-23T18:59:32.04608907Z"
+    created: "2026-01-23T19:04:49.677926134Z"
     dependencies:
     - condition: configMap.storage.postgres.deploy
       name: postgresql
@@ -54,7 +54,7 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: ~19.6.0
     description: Authelia is a Single Sign-On Multi-Factor portal for web apps
-    digest: f3cd58b451da80882011b59cd08859aaf13166973cd7ac2d6198d9296efc7a67
+    digest: 6ffc64bcae872717ed65b63299e68ad3f90791b12f1f2c28ec44528035d1e8c4
     home: https://www.authelia.com
     icon: https://avatars2.githubusercontent.com/u/59122411?s=200&v=4
     keywords:
@@ -133,7 +133,7 @@ entries:
           url: https://docs.goauthentik.io/img/screen_admin_light.jpg
     apiVersion: v2
     appVersion: 2025.12.1
-    created: "2026-01-23T18:59:32.054086447Z"
+    created: "2026-01-23T19:04:49.686044937Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -146,7 +146,7 @@ entries:
       version: 2.1.0
     description: authentik is an open-source Identity Provider focused on flexibility
       and versatility
-    digest: aae9f90f7d12881af90b1c4dcb95ebecde9e0fe7804323659e8306fe1940c9f6
+    digest: afe56942bc455645bdf800c7962339c7d28925ccb06b7aa3e6ca81889bc34daf
     home: https://goauthentik.io
     icon: https://goauthentik.io/img/icon.png
     keywords:
@@ -178,7 +178,7 @@ entries:
   cloudnative-pg:
   - apiVersion: v2
     appVersion: 1.28.0
-    created: "2026-01-23T18:59:32.062237773Z"
+    created: "2026-01-23T19:04:49.694734348Z"
     dependencies:
     - alias: monitoring
       condition: monitoring.grafanaDashboard.create
@@ -186,7 +186,7 @@ entries:
       repository: https://cloudnative-pg.github.io/grafana-dashboards
       version: "0.0"
     description: CloudNativePG Operator Helm Chart
-    digest: d21e8fb077a98c8bd587b71c90aa51cb5eae84f98c55a9e4fa0b418f206e129f
+    digest: 994c1ad43ec7cb0095ace173715a0c9e8917bbb721d6f0d3c3d6fb21e3f89d44
     home: https://cloudnative-pg.io
     icon: https://raw.githubusercontent.com/cloudnative-pg/artwork/main/cloudnativepg-logo.svg
     keywords:
@@ -208,7 +208,7 @@ entries:
   homebox:
   - apiVersion: v2
     appVersion: 0.22.3
-    created: "2026-01-23T18:59:32.067885924Z"
+    created: "2026-01-23T19:04:49.700762599Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -216,7 +216,7 @@ entries:
       version: 16.7.27
     description: A Helm chart for HomeBox, the inventory and organization system built
       for the Home User.
-    digest: eef28103a2153bd883aa3c8fd2a243e7648200f469bd24e10519c1c8cb16abdb
+    digest: 435d03a81b51f64b2aa8bfd52eaefacecdf1394ae20b4c29169310e27eafa5bb
     icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
     name: homebox
     type: application
@@ -277,10 +277,10 @@ entries:
   pocket-id:
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-23T18:59:32.069068806Z"
+    created: "2026-01-23T19:04:49.701963074Z"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
-    digest: 29add5f2a5aaeec897d846b9d1d78b70c55a1f1ae166ec03f1e38c7ced612958
+    digest: 99e159c7824e6137b616def0474eedbdce5e34f557f2f6b36b5835d467e42bdd
     home: https://pocket-id.org
     icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
     keywords:
@@ -353,10 +353,10 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T18:59:32.071505998Z"
+    created: "2026-01-23T19:04:49.704309355Z"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
-    digest: 13d0a5d4c57a4132362f79b29483fbe516678ea2189b8b020078be6eb5abfed1
+    digest: 23606a69764eb9f693dc42d97d4b1694c778a13a8ae13c08018a967bce8312d0
     icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/refs/heads/main/resources/vaultwarden-icon.svg
     keywords:
     - Rust
@@ -511,4 +511,4 @@ entries:
     urls:
     - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-23T18:59:32.025418643Z"
+generated: "2026-01-23T19:04:49.657895711Z"
