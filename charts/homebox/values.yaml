@@ -33,6 +33,10 @@ env:
   HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: true
   HBOX_OPTIONS_ALLOW_ANALYTICS: false
   HBOX_OPTIONS_CHECK_GITHUB_RELEASE: true
+  # uncomment the following variable if you use a reverse proxy and set HBOX_OPTIONS_TRUST_PROXY to true to trust your proxy
+  #HBOX_OPTIONS_HOSTNAME: homebox.domain.com
+  # And the following if you want to disable local login for only allowing to login using oidc
+  # HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: false
 
   HBOX_WEB_MAX_FILE_UPLOAD: 10
 
@@ -55,6 +59,7 @@ env:
   HBOX_WEB_READ_TIMEOUT: 10s
   HBOX_WEB_WRITE_TIMEOUT: 10s
   HBOX_WEB_IDLE_TIMEOUT: 30s
+  HBOX_OPTIONS_TRUST_PROXY: false
 
   HBOX_LABEL_MAKER_WIDTH: 526
   HBOX_LABEL_MAKER_HEIGHT: 200
@@ -68,6 +73,28 @@ env:
   HBOX_THUMBNAIL_WIDTH: 500	# width for generated thumbnails in pixels
   HBOX_THUMBNAIL_HEIGHT: 500
 
+  # OIDC Config - Uncomment the following for using oidc as login and read the commentsc for more information
+  HBOX_OIDC_ENABLED: false
+  # HBOX_OIDC_ISSUER_URL: https://auth.domain.com
+
+  # Uncomment the following two variables if you dont want to use a secret for your oidc provider
+  #HBOX_OIDC_CLIENT_ID: your-client-id
+  #HBOX_OIDC_CLIENT_SECRET: your-client-secret
+
+  # OIDC: Some advanced configuration options
+  # HBOX_OIDC_ALLOWED_GROUPS: admin,homebox
+  # HBOX_OIDC_GROUP_CLAIM: groups
+  # HBOX_OIDC_EMAIL_CLAIM: user_email
+  # HBOX_OIDC_NAME_CLAIM: 
+  # HBOX_OIDC_AUTO_REDIRECT: false
+  # Some oidc providers don't support sending a verified email claim to the apps that are configured
+  # HBOX_OIDC_VERIFY_EMAIL: false
+oidc:
+  client:
+    useSecret: false
+    existingSecret: hbox-oidc-secret
+    clientIDKey: hbox-client-id
+    clientSecretKey: hbox-client-secret
 # This define the PostgreSQL server configuration that will be deployed using Helm subchart.
 # Set the .enabled key to false to use an external PostgreSQL server.
 # For more information checkout: https://artifacthub.io/packages/helm/bitnami/postgresql

@@ -68,6 +68,18 @@ spec:
                   name: {{ .Values.externalPostgresql.auth.database.existingSecret }}
                   key: {{ .Values.externalPostgresql.auth.database.existingSecretKey }}
             {{- end }}
+            {{- if .Values.oidc.client.useSecret }}
+            - name: HBOX_OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.oidc.client.existingSecret }}
+                  key: {{ .Values.oidc.client.clientIDKey }}
+            - name: HBOX_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.oidc.client.existingSecret }}
+                  key: {{ .Values.oidc.client.clientSecretKey }}
+            {{- end }}
           {{- end }}
           ports:
             - name: http
