@@ -1,0 +1,15 @@
+{{- $fullname := (include "homebox.fullname" .) -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "%s-data" $fullname }}
+  labels:
+    {{- include "homebox.labels" . | nindent 4 }}
+spec:
+  storageClassName: {{ (.Values.persistence.storageClass | empty) | ternary .Values.global.defaultStorageClass .Values.persistence.storageClass }}
+  accessModes:
+    {{ .Values.persistence.accessModes | toYaml }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.capacity }}
+
