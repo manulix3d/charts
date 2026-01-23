@@ -39,7 +39,7 @@ entries:
         url: https://keybase.io/authelia/pgp_keys.asc
     apiVersion: v2
     appVersion: 4.39.13
-    created: "2026-01-23T15:40:00.8161363+01:00"
+    created: "2026-01-23T15:40:55.1098065+01:00"
     dependencies:
     - condition: configMap.storage.postgres.deploy
       name: postgresql
@@ -54,7 +54,7 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: ~19.6.0
     description: Authelia is a Single Sign-On Multi-Factor portal for web apps
-    digest: d1aa3d05b23881ad05a5aa3e795f6af9fbe96ad37448504874fd1d989f119261
+    digest: f76588078bd0d8e51997b3c0f73b6d5bdfc2468afbafdc91ef2ba6f468529e8b
     home: https://www.authelia.com
     icon: https://avatars2.githubusercontent.com/u/59122411?s=200&v=4
     keywords:
@@ -133,7 +133,7 @@ entries:
           url: https://docs.goauthentik.io/img/screen_admin_light.jpg
     apiVersion: v2
     appVersion: 2025.12.1
-    created: "2026-01-23T15:40:00.8258731+01:00"
+    created: "2026-01-23T15:40:55.1176049+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -146,7 +146,7 @@ entries:
       version: 2.1.0
     description: authentik is an open-source Identity Provider focused on flexibility
       and versatility
-    digest: 99afd81c115e8b341eaf5eea50036b8076bf77bd565d59205b006dc471bea88d
+    digest: 2f6c02dd9338294f68bf2d6b5129f80ff8bbf0266a831c61a40bf7cef130e30d
     home: https://goauthentik.io
     icon: https://goauthentik.io/img/icon.png
     keywords:
@@ -178,7 +178,7 @@ entries:
   cloudnative-pg:
   - apiVersion: v2
     appVersion: 1.28.0
-    created: "2026-01-23T15:40:00.8311605+01:00"
+    created: "2026-01-23T15:40:55.1235426+01:00"
     dependencies:
     - alias: monitoring
       condition: monitoring.grafanaDashboard.create
@@ -186,7 +186,7 @@ entries:
       repository: https://cloudnative-pg.github.io/grafana-dashboards
       version: "0.0"
     description: CloudNativePG Operator Helm Chart
-    digest: 757d252aa278b9118530fd4e8c74dfe0662dfea61c5d93640e198c9aa29f2b09
+    digest: eae244b24f6cd71962a5683a5eb8258cc6d53676c208818e8c0acc381ac405bb
     home: https://cloudnative-pg.io
     icon: https://raw.githubusercontent.com/cloudnative-pg/artwork/main/cloudnativepg-logo.svg
     keywords:
@@ -207,8 +207,25 @@ entries:
     version: 0.27.0
   homebox:
   - apiVersion: v2
+    appVersion: 0.22.3
+    created: "2026-01-23T15:40:55.1450594+01:00"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    description: A Helm chart for HomeBox, the inventory and organization system built
+      for the Home User.
+    digest: 8c4aecd1b32c98ecd8f3dcb75fb58ed71516c41c48cc7bd46fb7fc105107b922
+    icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
+    name: homebox
+    type: application
+    urls:
+    - https://charts.manulix3d.de/homebox-0.3.4.tgz
+    version: 0.3.4
+  - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T15:40:00.8458724+01:00"
+    created: "2026-01-23T15:40:55.1392764+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -225,7 +242,7 @@ entries:
     version: 0.3.3
   - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T15:40:00.8411616+01:00"
+    created: "2026-01-23T15:40:55.1334424+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -242,7 +259,7 @@ entries:
     version: 0.3.2
   - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T15:40:00.8359428+01:00"
+    created: "2026-01-23T15:40:55.1285613+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -260,10 +277,10 @@ entries:
   pocket-id:
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-23T15:40:00.8490584+01:00"
+    created: "2026-01-23T15:40:55.1485907+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
-    digest: 96d456f5f540cc2f5507bf3c7aa39f4f51bf0419bb66fc8751c5249c33ba6ba6
+    digest: 9a34ebbb0595456b6d4035c139a2dd702ff463b3719cc105608fe71208cc1efd
     home: https://pocket-id.org
     icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
     keywords:
@@ -285,7 +302,7 @@ entries:
     version: 2.0.2
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-23T15:40:00.8480008+01:00"
+    created: "2026-01-23T15:40:55.1475912+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
     digest: d939b94bd88d14e8651c149d346a041a83598046105e07f4ea1f6ed92d9d1664
@@ -310,7 +327,7 @@ entries:
     version: 2.0.1
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-23T15:40:00.8469377+01:00"
+    created: "2026-01-23T15:40:55.1461076+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
     digest: 35026bf860e636450d4608080b26b996046200017367db00dc93431e3adccfeb
@@ -336,10 +353,10 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T15:40:00.857081+01:00"
+    created: "2026-01-23T15:40:55.1577065+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
-    digest: 8435c6383bf26256f051694a98b2a487416489772ba6b0ae1e7f1353b3e0e52b
+    digest: 09ba5347229a99bec1a1932c14421203370d36870027587c244026dd5f8f9014
     icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/refs/heads/main/resources/vaultwarden-icon.svg
     keywords:
     - Rust
@@ -359,7 +376,7 @@ entries:
     version: 0.35.4
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T15:40:00.8560328+01:00"
+    created: "2026-01-23T15:40:55.1557054+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 1cf82ac7cd461e795f550c037d221a70d89d6cd6d9ae533a70f229645e7587a0
@@ -382,7 +399,7 @@ entries:
     version: 0.35.3
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T15:40:00.8543862+01:00"
+    created: "2026-01-23T15:40:55.1547053+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 1988094e9c7f0542a918e710d980ef9d22938c47eb434f7d1124903ba3bb456b
@@ -405,7 +422,7 @@ entries:
     version: 0.35.2
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T15:40:00.8533253+01:00"
+    created: "2026-01-23T15:40:55.153701+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: eff73e3b34cf01133b64353b8b4128413549fd30e441fc3bc410f66317af31ad
@@ -428,7 +445,7 @@ entries:
     version: 0.35.1
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T15:40:00.8517363+01:00"
+    created: "2026-01-23T15:40:55.1526931+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 500290078e87394b14e9d35d60bc14d4212a0e4c9d0df65b88a2b03f65e47718
@@ -451,7 +468,7 @@ entries:
     version: 0.35.0
   - apiVersion: v2
     appVersion: 1.34.3
-    created: "2026-01-23T15:40:00.8506462+01:00"
+    created: "2026-01-23T15:40:55.1505906+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 566e2c7ffadd6233280fa884dfdaaaa988cc37346c4f32e718f591706c826175
@@ -471,4 +488,4 @@ entries:
     urls:
     - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-23T15:40:00.7987751+01:00"
+generated: "2026-01-23T15:40:55.0902011+01:00"
