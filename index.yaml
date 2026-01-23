@@ -39,7 +39,7 @@ entries:
         url: https://keybase.io/authelia/pgp_keys.asc
     apiVersion: v2
     appVersion: 4.39.13
-    created: "2026-01-23T13:57:49.230843408Z"
+    created: "2026-01-23T15:40:00.8161363+01:00"
     dependencies:
     - condition: configMap.storage.postgres.deploy
       name: postgresql
@@ -133,7 +133,7 @@ entries:
           url: https://docs.goauthentik.io/img/screen_admin_light.jpg
     apiVersion: v2
     appVersion: 2025.12.1
-    created: "2026-01-23T13:57:49.238625494Z"
+    created: "2026-01-23T15:40:00.8258731+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -178,7 +178,7 @@ entries:
   cloudnative-pg:
   - apiVersion: v2
     appVersion: 1.28.0
-    created: "2026-01-23T13:57:49.2446532Z"
+    created: "2026-01-23T15:40:00.8311605+01:00"
     dependencies:
     - alias: monitoring
       condition: monitoring.grafanaDashboard.create
@@ -208,7 +208,7 @@ entries:
   homebox:
   - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T13:57:49.249712361Z"
+    created: "2026-01-23T15:40:00.8458724+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -225,7 +225,7 @@ entries:
     version: 0.3.3
   - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T12:42:24.981743408Z"
+    created: "2026-01-23T15:40:00.8411616+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -238,11 +238,11 @@ entries:
     name: homebox
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/homebox-0.3.2/homebox-0.3.2.tgz
+    - https://charts.manulix3d.de/homebox-0.3.2.tgz
     version: 0.3.2
   - apiVersion: v2
     appVersion: v0.22.3
-    created: "2026-01-23T12:09:19.674178163Z"
+    created: "2026-01-23T15:40:00.8359428+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -255,12 +255,12 @@ entries:
     name: homebox
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/homebox-0.3.1/homebox-0.3.1.tgz
+    - https://charts.manulix3d.de/homebox-0.3.1.tgz
     version: 0.3.1
   pocket-id:
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-23T13:57:49.250714449Z"
+    created: "2026-01-23T15:40:00.8490584+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
     digest: 96d456f5f540cc2f5507bf3c7aa39f4f51bf0419bb66fc8751c5249c33ba6ba6
@@ -285,7 +285,7 @@ entries:
     version: 2.0.2
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-21T12:50:20.630742091Z"
+    created: "2026-01-23T15:40:00.8480008+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
     digest: d939b94bd88d14e8651c149d346a041a83598046105e07f4ea1f6ed92d9d1664
@@ -306,11 +306,11 @@ entries:
     - https://github.com/pocket-id/pocket-id
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/pocket-id-2.0.1/pocket-id-2.0.1.tgz
+    - https://charts.manulix3d.de/pocket-id-2.0.1.tgz
     version: 2.0.1
   - apiVersion: v2
     appVersion: v2.2.0
-    created: "2026-01-21T12:45:57.7274391Z"
+    created: "2026-01-23T15:40:00.8469377+01:00"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
       users to authenticate with their passkeys to your services. '
     digest: 35026bf860e636450d4608080b26b996046200017367db00dc93431e3adccfeb
@@ -331,77 +331,12 @@ entries:
     - https://github.com/pocket-id/pocket-id
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/pocket-id-2.0.0/pocket-id-2.0.0.tgz
+    - https://charts.manulix3d.de/pocket-id-2.0.0.tgz
     version: 2.0.0
-  traefik:
-  - annotations:
-      artifacthub.io/changes: |
-        - "revert(CRDs): use Traefik Hub v3.18.0 compatible crds"
-        - "fix(security): set the seccomp profile to RuntimeDefault"
-        - "fix(CRDs): enforce the fact that this Chart does not support Traefik Hub v3.19.0"
-        - "feat(deps): update traefik docker tag to v3.6.6"
-        - "chore(release): publish traefik 38.0.2 and crds 1.13.1"
-    apiVersion: v2
-    appVersion: v3.6.7
-    created: "2026-01-21T20:14:53.162077725Z"
-    description: A Traefik based Kubernetes ingress controller
-    digest: 878aaf357db4afe72bba0c7872879c9a65f5b99eb88e57cb53c90f2b6ee3ec9f
-    home: https://traefik.io/
-    icon: https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo.png
-    keywords:
-    - traefik
-    - ingress
-    - networking
-    kubeVersion: '>=1.22.0-0'
-    maintainers:
-    - email: michel.loiseleur@traefik.io
-      name: mloiseleur
-    - email: remi.buisson@traefik.io
-      name: darkweaver87
-    - name: jnoordsij
-    name: traefik
-    sources:
-    - https://github.com/traefik/traefik-helm-chart
-    - https://github.com/traefik/traefik
-    type: application
-    urls:
-    - https://github.com/manulix3d/charts/releases/download/traefik-38.0.2/traefik-38.0.2.tgz
-    version: 38.0.2
-  traefik-crds:
-  - annotations:
-      artifacthub.io/changes: |
-        - "revert(CRDs): use Traefik Hub v3.18.0 compatible crds"
-        - "docs(CRDs): add deprecation notice"
-        - "chore(release): publish traefik 38.0.2 and crds 1.13.1"
-    apiVersion: v2
-    created: "2026-01-21T20:14:53.426768013Z"
-    description: A Traefik based Kubernetes ingress controller
-    digest: 51fe01b7a4a2a0e975b8aa3d62c91d89223db16c5a938d0bd88435eec494017a
-    home: https://traefik.io/
-    icon: https://raw.githubusercontent.com/traefik/traefik/v2.3/docs/content/assets/img/traefik.logo.png
-    keywords:
-    - traefik
-    - ingress
-    - networking
-    kubeVersion: '>=1.22.0-0'
-    maintainers:
-    - email: michel.loiseleur@traefik.io
-      name: mloiseleur
-    - email: remi.buisson@traefik.io
-      name: darkweaver87
-    - name: jnoordsij
-    name: traefik-crds
-    sources:
-    - https://github.com/traefik/traefik-helm-chart
-    - https://github.com/traefik/traefik
-    type: application
-    urls:
-    - https://github.com/manulix3d/charts/releases/download/traefik-crds-1.13.1/traefik-crds-1.13.1.tgz
-    version: 1.13.1
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-23T13:57:49.252116968Z"
+    created: "2026-01-23T15:40:00.857081+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 8435c6383bf26256f051694a98b2a487416489772ba6b0ae1e7f1353b3e0e52b
@@ -424,7 +359,7 @@ entries:
     version: 0.35.4
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-22T20:32:54.731160837Z"
+    created: "2026-01-23T15:40:00.8560328+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 1cf82ac7cd461e795f550c037d221a70d89d6cd6d9ae533a70f229645e7587a0
@@ -443,11 +378,11 @@ entries:
     - https://github.com/dani-garcia/vaultwarden
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.35.3/vaultwarden-0.35.3.tgz
+    - https://charts.manulix3d.de/vaultwarden-0.35.3.tgz
     version: 0.35.3
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-22T20:25:34.182557419Z"
+    created: "2026-01-23T15:40:00.8543862+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 1988094e9c7f0542a918e710d980ef9d22938c47eb434f7d1124903ba3bb456b
@@ -466,11 +401,11 @@ entries:
     - https://github.com/dani-garcia/vaultwarden
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.35.2/vaultwarden-0.35.2.tgz
+    - https://charts.manulix3d.de/vaultwarden-0.35.2.tgz
     version: 0.35.2
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-22T20:11:30.445634053Z"
+    created: "2026-01-23T15:40:00.8533253+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: eff73e3b34cf01133b64353b8b4128413549fd30e441fc3bc410f66317af31ad
@@ -489,11 +424,11 @@ entries:
     - https://github.com/dani-garcia/vaultwarden
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.35.1/vaultwarden-0.35.1.tgz
+    - https://charts.manulix3d.de/vaultwarden-0.35.1.tgz
     version: 0.35.1
   - apiVersion: v2
     appVersion: 1.35.2
-    created: "2026-01-22T19:49:41.716813902Z"
+    created: "2026-01-23T15:40:00.8517363+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 500290078e87394b14e9d35d60bc14d4212a0e4c9d0df65b88a2b03f65e47718
@@ -512,11 +447,11 @@ entries:
     - https://github.com/dani-garcia/vaultwarden
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.35.0/vaultwarden-0.35.0.tgz
+    - https://charts.manulix3d.de/vaultwarden-0.35.0.tgz
     version: 0.35.0
   - apiVersion: v2
     appVersion: 1.34.3
-    created: "2026-01-21T21:40:05.186787866Z"
+    created: "2026-01-23T15:40:00.8506462+01:00"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
       in Rust
     digest: 566e2c7ffadd6233280fa884dfdaaaa988cc37346c4f32e718f591706c826175
@@ -534,6 +469,6 @@ entries:
     - https://github.com/dani-garcia/vaultwarden
     type: application
     urls:
-    - https://github.com/manulix3d/charts/releases/download/vaultwarden-0.34.4/vaultwarden-0.34.4.tgz
+    - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-23T13:57:49.211626307Z"
+generated: "2026-01-23T15:40:00.7987751+01:00"
