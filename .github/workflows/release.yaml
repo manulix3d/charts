@@ -12,10 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (main branch)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -52,10 +51,50 @@ jobs:
             fi
           done
 
-      - name: Release Charts
-        uses: helm/chart-releaser-action@v1.7.0
+      - name: Package Charts
+        run: |
+          mkdir -p packaged
+          for chart in charts/*/; do
+            chart_name=$(basename $chart)
+            echo "📦 Packaging $chart_name..."
+            helm package "$chart" -u -d packaged/
+          done
+          ls -la packaged/
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
         with:
-          charts_dir: charts
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_SKIP_EXISTING: true
+          ref: gh-pages
+          path: gh-pages
+          fetch-depth: 0
+
+      - name: Update Helm Repository Index
+        run: |
+          # Merge newly packaged charts with existing repository
+          helm repo index packaged/ \
+            --url https://charts.manulix3d.de/ \
+            --merge gh-pages/index.yaml
+          
+          # Copy packaged charts to gh-pages
+          cp packaged/*.tgz gh-pages/ 2>/dev/null || true
+          cp packaged/index.yaml gh-pages/index.yaml
+          
+          # Show what we're publishing
+          echo "📋 Repository contents:"
+          ls -lah gh-pages/
+
+      - name: Commit and push to gh-pages
+        run: |
+          cd gh-pages
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          
+          # Only commit if there are changes
+          if ! git diff --quiet; then
+            git add .
+            git commit -m "chore: update helm charts from ${{ github.sha }}"
+            git push origin gh-pages
+            echo "✅ Successfully pushed charts to gh-pages"
+          else
+            echo "ℹ️  No changes to commit"
+          fi
