@@ -44,6 +44,10 @@ containers:
       - secretRef:
           name: {{ .Values.image.extraVarsSecret }}
       {{- end }}
+      {{- if .Values.sso.useExistingSecret }}
+      - secretRef:
+          name: {{ .Values.sso.existingSecret | quote }}
+      {{- end }}
     env:
       {{- range .Values.image.extraVars }}
       - name: {{ .key }}

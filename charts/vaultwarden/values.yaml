@@ -825,9 +825,11 @@ sso:
   authorizeExtraParams: access_type=offline&prompt=consent
   pkce: true
   audienceTrusted: ^$
-  clientID: 11111
-  clientSecret: AAAAAAAAAAAAAAAAAAAAAAAA
-  masterPasswordPolicy: '{"enforceOnLogin":false,"minComplexity":3,"minLength":12,"requireLower":false,"requireNumbers":false,"requireSpecial":false,"requireUpper":false}''
+  clientID: ""
+  clientSecret: ""
+  useExistingSecret: false
+  existingSecret: "vaultwarden-sso-secret"
+  masterPasswordPolicy: '{"enforceOnLogin":false,"minComplexity":3,"minLength":12,"requireLower":false,"requireNumbers":false,"requireSpecial":false,"requireUpper":false}'
   authOnlyNotSession: false
   clientCacheExpiration: 0
   debugTokens: false

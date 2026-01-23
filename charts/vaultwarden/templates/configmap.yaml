@@ -131,8 +131,12 @@ data:
   SSO_AUTHORIZE_EXTRA_PARAMS: {{ .Values.sso.authorizeExtraParams | quote }}
   SSO_PKCE: {{ .Values.sso.pkce | quote }}
   SSO_AUDIENCE_TRUSTED: {{ .Values.sso.audienceTrusted | quote }}
+  {{- if and (not .Values.sso.useExistingSecret) .Values.sso.clientID }}
   SSO_CLIENT_ID: {{ .Values.sso.clientID | quote }}
+  {{- end }}
+  {{- if and (not .Values.sso.useExistingSecret) .Values.sso.clientSecret }}
   SSO_CLIENT_SECRET: {{ .Values.sso.clientSecret | quote }}
+  {{- end }}
   SSO_MASTER_PASSWORD_POLICY: {{ .Values.sso.masterPasswordPolicy | toJson | quote }}
   SSO_AUTH_ONLY_NOT_SESSION: {{ .Values.sso.authOnlyNotSession | quote }}
   SSO_CLIENT_CACHE_EXPIRATION: {{ .Values.sso.clientCacheExpiration | quote }}
