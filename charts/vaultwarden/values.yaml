@@ -126,15 +126,13 @@ serviceAccount:
 
 ## @param podSecurityContext Pod security options
 ##
-podSecurityContext:
-  {}
+podSecurityContext: {}
   # fsGroup: 1001
   # supplementalGroups:
   #   - 1001
 
 ## @param securityContext Default security options to run vault as read only container without privilege escalation
-securityContext:
-  {}
+securityContext: {}
   # allowPrivilegeEscalation: false
   # privileged: false
   # readOnlyRootFilesystem: true
@@ -167,7 +165,6 @@ extraObjects: []
   ##     data:
   ##       DB_STRING: ENC[AES256_GCM,data:******,iv:***,tag:***,type:str]
   ##   sops: ...
-
 
 ## @section Reliability configuration
 ##
@@ -249,8 +246,7 @@ startupProbe:
 
 ## @param resources Resource configurations
 ##
-resources:
-  {}
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -264,8 +260,7 @@ resources:
 
 ## @param strategy Resource configurations
 ##
-strategy:
-  {}
+strategy: {}
   # type: RollingUpdate
   # rollingUpdate:
   #   maxSurge: 1
@@ -290,16 +285,14 @@ storage:
   ## attachments PV's. The custom values for data and attachments will be ignored if
   ## a value is set here
   ##
-  existingVolumeClaim:
-    {}
+  existingVolumeClaim: {}
     # claimName: "vaultwarden-pvc"
     # dataPath: "/data"
     # attachmentsPath: /data/attachments
 
   ## @param storage.data Data directory configuration, refer to values.yaml for parameters.
   ##
-  data:
-    {}
+  data: {}
     # name: "vaultwarden-data"
     # size: "15Gi"
     # class: ""
@@ -310,8 +303,7 @@ storage:
   ## @param storage.attachments Attachments directory configuration, refer to values.yaml for parameters.
   ## By default, attachments/ is located inside the data directory.
   ##
-  attachments:
-    {}
+  attachments: {}
     # name: "vaultwarden-files"
     # size: "100Gi"
     # class: ""
@@ -762,9 +754,9 @@ service:
   #   clientIP:
   #     timeoutSeconds: 10800
 
-## Ingress configuration
-## Refer to the README for some examples
-##
+  ## Ingress configuration
+  ## Refer to the README for some examples
+  ##
 ingress:
   ## @param ingress.enabled Deploy an ingress resource.
   ##
@@ -829,7 +821,14 @@ sso:
   clientSecret: ""
   useExistingSecret: false
   existingSecret: "vaultwarden-sso-secret"
-  masterPasswordPolicy: '{"enforceOnLogin":false,"minComplexity":3,"minLength":12,"requireLower":false,"requireNumbers":false,"requireSpecial":false,"requireUpper":false}'
+  masterPasswordPolicy:
+    enforceOnLogin: false
+    minComplexity: 3
+    minLength: 12
+    requireLower: true
+    requireNumbers: true
+    requireSpecial: true
+    requireUpper: true
   authOnlyNotSession: false
   clientCacheExpiration: 0
   debugTokens: false
