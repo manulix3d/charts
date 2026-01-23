@@ -1,11 +1,8 @@
 name: Update README Chart Table
 
 on:
-  push:
-    paths:
-    - 'charts/**/Chart.yaml'
-    branches:
-    - main
+  workflow_run:
+    workflows: [ "Release Helm Charts" ]
   workflow_dispatch:
 
 
