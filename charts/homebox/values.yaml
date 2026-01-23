@@ -33,7 +33,7 @@ env:
   HBOX_OPTIONS_AUTO_INCREMENT_ASSET_ID: true
   HBOX_OPTIONS_ALLOW_ANALYTICS: false
   HBOX_OPTIONS_CHECK_GITHUB_RELEASE: true
-  # uncomment the following variable if you use a reverse proxy and set HBOX_OPTIONS_TRUST_PROXY to true to trust your proxy
+  # uncomment and set the following variable if you use a reverse proxy and set HBOX_OPTIONS_TRUST_PROXY to true to trust your proxy
   #HBOX_OPTIONS_HOSTNAME: homebox.domain.com
   # And the following if you want to disable local login for only allowing to login using oidc
   # HBOX_OPTIONS_ALLOW_LOCAL_LOGIN: false
@@ -164,7 +164,7 @@ podSecurityContext:
 securityContext:
   capabilities:
     drop:
-    - ALL
+      - ALL
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
   runAsNonRoot: true
