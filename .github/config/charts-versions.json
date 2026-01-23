@@ -51,6 +51,16 @@
       "enabled": true,
       "external": true,
       "syncBranch": "master"
+    },
+    {
+      "name": "homebox",
+      "chartPath": "charts/homebox",
+      "repository": "sysadminsmedia/homebox",
+      "imagePrefix": "ghcr.io/sysadminsmedia/homebox",
+      "valuesFile": "values.yaml",
+      "imageKey": "image.tag",
+      "enabled": true,
+      "external": false
     }
   ]
 }
