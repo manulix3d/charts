@@ -41,7 +41,7 @@ pocketID:
     # -- Registry and repository for the pocket-id image.
     repository: ghcr.io/pocket-id/pocket-id
     # -- Tag for the image.
-    tag: "v1.16.0"
+    tag: v2.2.0
     # -- Image pull policy.
     pullPolicy: IfNotPresent
 
@@ -72,7 +72,7 @@ backup:
     # -- Registry and repository for the litestream image.
     repository: docker.io/litestream/litestream
     # -- Tag for the image.
-    tag: "0.5.5"
+    tag: v2.2.0
     # -- Image pull policy.
     pullPolicy: IfNotPresent
 
