@@ -92,3 +92,19 @@ Determine whether to use deployment or statefulset
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{- define "vaultwarden.dataPath" }}
+{{- if .Values.storage.existingVolumeClaim.enabled }}
+{{- .Values.storage.existingVolumeClaim.data.path | default "/data" }}
+{{- else }}
+{{- .Values.storage.data.path | default "/data" }}
+{{- end }}
+{{- end }}
+
+{{- define "vaultwarden.attachmentsPath" }}
+{{- if .Values.storage.existingVolumeClaim.enabled }}
+{{- .Values.storage.existingVolumeClaim.attachments.path | default "/data/attachments" }}
+{{- else }}
+{{- .Values.storage.attachments.path | default "/data/attachments" }}
+{{- end }}
+{{- end }}
