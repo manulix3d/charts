@@ -15,7 +15,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.22.3
+  tag: v0.22.3
 
 # Persistence configuration for HomeBox
 persistence:
