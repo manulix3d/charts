@@ -2,10 +2,11 @@ name: Release Helm Charts
 
 on:
   workflow_run:
-    workflows: ["Update Local Charts"]
+    workflows: [ "Update Local Charts" ]
     types:
-      - completed
+    - completed
   workflow_dispatch:
+
 
 jobs:
   release:
@@ -14,87 +15,137 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repository (main branch)
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout repository (main branch)
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
+    - name: Configure Git
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Install Helm
-        uses: azure/setup-helm@v4.3.0
-        with:
-          version: 'latest'
+    - name: Install Helm
+      uses: azure/setup-helm@v4.3.0
+      with:
+        version: 'latest'
 
-      - name: Prepare Helm repositories
-        run: |
-          # Authentik
-          helm repo add authentik https://charts.goauthentik.io
-          helm repo add grafana https://grafana.github.io/helm-charts
-          helm repo add grafana-dashboards https://cloudnative-pg.github.io/grafana-dashboards
-          helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo update
+    - name: Install yq
+      uses: mikefarah/yq@master
 
-      - name: Lint Charts
-        run: |
-          SKIP_CHARTS="traefik"
-          for chart in charts/*/; do
-            chart_name=$(basename $chart)
-            if echo "$SKIP_CHARTS" | grep -qw "$chart_name"; then
-              echo "⚠️  Skipping $chart_name (known lint issues)"
-            else
-              echo "✅ Linting $chart_name..."
-              helm lint "$chart"
-            fi
-          done
+    - name: Prepare Helm repositories
+      run: |
+        # Authentik
+        helm repo add authentik https://charts.goauthentik.io
+        helm repo add grafana https://grafana.github.io/helm-charts
+        helm repo add grafana-dashboards https://cloudnative-pg.github.io/grafana-dashboards
+        helm repo add bitnami https://charts.bitnami.com/bitnami
+        helm repo update
 
-      - name: Package Charts
-        run: |
-          mkdir -p packaged
-          for chart in charts/*/; do
-            chart_name=$(basename $chart)
-            echo "📦 Packaging $chart_name..."
-            helm package "$chart" -u -d packaged/
-          done
-          ls -la packaged/
-
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-          fetch-depth: 0
-
-      - name: Update Helm Repository Index
-        run: |
-          # Merge newly packaged charts with existing repository
-          helm repo index packaged/ \
-            --url https://charts.manulix3d.de/ \
-            --merge gh-pages/index.yaml
-          
-          # Copy packaged charts to gh-pages
-          cp packaged/*.tgz gh-pages/ 2>/dev/null || true
-          cp packaged/index.yaml gh-pages/index.yaml
-          
-          # Show what we're publishing
-          echo "📋 Repository contents:"
-          ls -lah gh-pages/
-
-      - name: Commit and push to gh-pages
-        run: |
-          cd gh-pages
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          
-          # Only commit if there are changes
-          if ! git diff --quiet; then
-            git add .
-            git commit -m "chore: update helm charts from ${{ github.sha }}"
-            git push origin gh-pages
-            echo "✅ Successfully pushed charts to gh-pages"
+    - name: Lint Charts
+      run: |
+        SKIP_CHARTS="traefik"
+        for chart in charts/*/; do
+          chart_name=$(basename $chart)
+          if echo "$SKIP_CHARTS" | grep -qw "$chart_name"; then
+            echo "⚠️  Skipping $chart_name (known lint issues)"
           else
-            echo "ℹ️  No changes to commit"
+            echo "✅ Linting $chart_name..."
+            helm lint "$chart"
           fi
+        done
+
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        fetch-depth: 0
+
+    - name: Check version changes and package charts
+      id: version-check
+      run: |
+        mkdir -p packaged
+        CHANGED=false
+
+        # Laden der existierenden index.yaml für Versionsprüfung
+        INDEX_FILE="gh-pages/index.yaml"
+
+        for chart in charts/*/; do
+          chart_name=$(basename "$chart")
+          new_version=$(yq '.version' "$chart/Chart.yaml")
+          
+          # Prüfe ob Chart bereits in index.yaml vorhanden ist
+          if [ -f "$INDEX_FILE" ]; then
+            existing_version=$(yq ".entries.\"$chart_name\"[0].version" "$INDEX_FILE" 2>/dev/null || echo "")
+          else
+            existing_version=""
+          fi
+          
+          if [ -z "$existing_version" ]; then
+            echo "✨ New chart detected: $chart_name (version: $new_version)"
+            helm package "$chart" -u -d packaged/
+            CHANGED=true
+          elif [ "$new_version" != "$existing_version" ]; then
+            echo "📦 Version update detected for $chart_name: $existing_version → $new_version"
+            helm package "$chart" -u -d packaged/
+            CHANGED=true
+          else
+            echo "⏭️  Skipping $chart_name (version unchanged: $new_version)"
+          fi
+        done
+
+        echo "changed=$CHANGED" >> $GITHUB_OUTPUT
+
+        if [ "$CHANGED" = true ]; then
+          echo ""
+          echo "📋 Packaged charts:"
+          ls -lah packaged/
+        else
+          echo ""
+          echo "ℹ️  No charts to package (all versions unchanged)"
+        fi
+
+    - name: Update Helm Repository Index
+      if: steps.version-check.outputs.changed == 'true'
+      run: |
+        # Merge newly packaged charts with existing repository
+        helm repo index packaged/ \
+          --url https://charts.manulix3d.de/ \
+          --merge gh-pages/index.yaml
+
+        # Copy packaged charts to gh-pages
+        cp packaged/*.tgz gh-pages/ 2>/dev/null || true
+        cp packaged/index.yaml gh-pages/index.yaml
+
+        # Show what we're publishing
+        echo "📋 Updated repository contents:"
+        ls -lah gh-pages/
+
+    - name: Commit and push to gh-pages
+      if: steps.version-check.outputs.changed == 'true'
+      run: |
+        cd gh-pages
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+        # Only commit if there are changes
+        if ! git diff --quiet; then
+          git add .
+          git commit -m "chore: update helm charts from ${{ github.sha }}"
+          git push origin gh-pages
+          echo "✅ Successfully pushed charts to gh-pages"
+        else
+          echo "ℹ️  No changes to commit"
+        fi
+
+    - name: Summary
+      if: always()
+      run: |
+        echo ""
+        echo "📊 Release Summary:"
+        if [ "${{ steps.version-check.outputs.changed }}" = "true" ]; then
+          echo "✅ Charts were updated and pushed to gh-pages"
+        else
+          echo "ℹ️  No version changes detected - nothing to release"
+        fi
