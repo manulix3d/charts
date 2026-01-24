@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homebox-pvc # This name needs to be set in persistence.external.name
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: longhorn # Or your storage class
+  resources:
+    requests:
+      storage: 10Gi
