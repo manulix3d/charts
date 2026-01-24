@@ -9,8 +9,15 @@
     {{- $extAttach = .Values.storage.existingVolumeClaim.attachments.claimName | default "" }}
   {{- end }}
 {{- end }}
-{{- $statefulData := .Values.storage.data }}
-{{- $statefulAttach := .Values.storage.attachments }}
+
+{{- $statefulData := "" }}
+{{- $statefulAttach := "" }}
+{{- if and .Values.storage.data .Values.storage.data.name }}
+  {{- $statefulData = .Values.storage.data.name }}
+{{- end }}
+{{- if and .Values.storage.attachments .Values.storage.attachments.name }}
+  {{- $statefulAttach = .Values.storage.attachments.name }}
+{{- end }}
 
 {{- if and $extAttach (not $extData) }}
   {{- fail "\n\n❌ CONFIGURATION ERROR:\n   attachments external PVC requires data external PVC!\n\n" }}
