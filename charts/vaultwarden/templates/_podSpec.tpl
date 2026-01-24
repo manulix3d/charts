@@ -160,24 +160,30 @@ containers:
         protocol: TCP
     {{- if .Values.extraVolumeMounts }}
     volumeMounts:
-      {{- with .Values.extraVolumeMounts }}
-      {{- toYaml . | nindent 6 }}
-      {{- end }}
-      {{- if and (.Values.storage.existingVolumeClaim.data.claimName) (.Values.storage.existingVolumeClaim.attachments.claimName) }}
+      {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
+      {{- if .Values.storage.existingVolumeClaim.enabled }}
       - name: vaultwarden-data
-        mountPath: {{ default "/data" .Values.storage.existingVolumeClaim.data.path }}
+        mountPath: {{ .Values.storage.existingVolumeClaim.data.path | default "/data" }}
       - name: vaultwarden-attachments
-        mountPath: {{ default "/data/attachments" .Values.storage.existingVolumeClaim.attachments.path }}
+        mountPath: {{ .Values.storage.existingVolumeClaim.attachments.path | default "/data/attachments" }}
+      {{- else if and .Values.storage.data.name .Values.storage.attachments.name }}
+      - name: {{ .Values.storage.data.name }}
+        mountPath: {{ .Values.storage.data.path | default "/data" }}
+      - name: {{ .Values.storage.attachments.name }}
+        mountPath: {{ .Values.storage.attachments.path | default "/data/attachments" }}
       {{- end }}
-      {{- if and .Values.storage.data.name .Values.storage.attachments.name }}
-      {{- with .Values.storage.data }}
-      - name: {{ .name }}
-        mountPath: {{ default "/data" .path }}
-      {{- end }}
-      {{- with .Values.storage.attachments }}
-      - name: {{ .name }}
-        mountPath: {{ default "/data/attachments" .path }}
-      {{- end }}
+    {{- else if or .Values.storage.existingVolumeClaim.enabled .Values.storage.data.name }}
+    volumeMounts:
+      {{- if .Values.storage.existingVolumeClaim.enabled }}
+      - name: vaultwarden-data
+        mountPath: {{ .Values.storage.existingVolumeClaim.data.path | default "/data" }}
+      - name: vaultwarden-attachments
+        mountPath: {{ .Values.storage.existingVolumeClaim.attachments.path | default "/data/attachments" }}
+      {{- else }}
+      - name: {{ .Values.storage.data.name }}
+        mountPath: {{ .Values.storage.data.path | default "/data" }}
+      - name: {{ .Values.storage.attachments.name }}
+        mountPath: {{ .Values.storage.attachments.path | default "/data/attachments" }}
       {{- end }}
     {{- end }}
     resources:
