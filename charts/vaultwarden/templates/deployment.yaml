@@ -1,4 +1,3 @@
-{{- include "vaultwarden.validateStorage" . }}
 {{- if eq (include "vaultwarden.resourceType" .) "Deployment" }}
 apiVersion: apps/v1
 kind: Deployment

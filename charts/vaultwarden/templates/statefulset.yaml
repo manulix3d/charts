@@ -1,4 +1,3 @@
-{{ include "vaultwarden.validateStorage" . }}
 {{- if eq (include "vaultwarden.resourceType" .) "StatefulSet" }}
 apiVersion: apps/v1
 kind: StatefulSet
