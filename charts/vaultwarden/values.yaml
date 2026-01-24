@@ -285,39 +285,36 @@ storage:
   ## attachments PV's. The custom values for data and attachments will be ignored if
   ## a value is set here
   ##
-  # Remove {} if using the options below
-  existingVolumeClaim: {}
-    # data:
-    #   claimName: "vaultwarden-data-pvc"
-    #   path: "/data"
-    # attachments:
-    #   claimName: "vaultwarden-attachments-pvc"
-    #   path: "/data/attachments"
-
+  # existingVolumeClaim:
+  #   data:
+  #     claimName: "vaultwarden-data-pvc"
+  #     path: "/data"
+  #   attachments:
+  #     claimName: "vaultwarden-attachments-pvc"
+  #     path: "/data/attachments"
   ## @param storage.data Data directory configuration, refer to values.yaml for parameters.
   ##
-  # Don't forget to add {} after data: and attachments when using existingVolumeClaim
-  data:
-    name: "vaultwarden-data"
-    size: "15Gi"
-    class: ""
-    path: "/data"
-    keepPvc: true
-    accessMode: "ReadWriteOnce"
+  # data:
+  #   name: "vaultwarden-data"
+  #   size: "15Gi"
+  #   class: ""
+  #   path: "/data"
+  #   keepPvc: true
+  #   accessMode: "ReadWriteOnce"
 
   ## @param storage.attachments Attachments directory configuration, refer to values.yaml for parameters.
   ## By default, attachments/ is located inside the data directory.
   ##
-  attachments:
-    name: "vaultwarden-attachments"
-    size: "20Gi"
-    class: ""
-    path: /files
-    keepPvc: true
-    accessMode: "ReadWriteOnce"
+  # attachments:
+  #   name: "vaultwarden-attachments"
+  #   size: "20Gi"
+  #   class: ""
+  #   path: /files
+  #   keepPvc: true
+  #   accessMode: "ReadWriteOnce"
 
-## @param webVaultEnabled Enable Web Vault
-##
+  ## @param webVaultEnabled Enable Web Vault
+  ##
 webVaultEnabled: "true"
 
 ## @section Database settings
