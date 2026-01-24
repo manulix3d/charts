@@ -2,6 +2,28 @@
 
 Thanks for installing {{ .Chart.Name }}.
 
+{{- if and .Values.storage.existingVolumeClaim .Values.storage.existingVolumeClaim.attachments .Values.storage.existingVolumeClaim.attachments.claimName (not .Values.storage.existingVolumeClaim.data) }}
+{{- printf "\n⚠️  WARNING: attachments PVC (%s) is configured but data PVC is missing!" .Values.storage.existingVolumeClaim.attachments.claimName | indent 2 }}
+{{- printf "\n   Vaultwarden requires /data mount for database. Please also configure:" | indent 2 }}
+{{- printf "\n   storage:" | indent 2 }}
+{{- printf "\n     existingVolumeClaim:" | indent 2 }}
+{{- printf "\n       data:" | indent 2 }}
+{{- printf "\n         claimName: \"vaultwarden-data-pvc\"" | indent 2 }}
+{{- printf "\n         path: \"/data\"" | indent 2 }}
+{{- end }}
+
+{{- if and .Values.storage.existingVolumeClaim .Values.storage.existingVolumeClaim.data .Values.storage.existingVolumeClaim.data.claimName .Values.storage.attachments }}
+{{- printf "\n⚠️  WARNING: Inconsistent storage config!" | indent 2 }}
+{{- printf "\n   data external PVC + attachments StatefulSet" | indent 2 }}
+{{- printf "\n   Use both external OR both StatefulSet" | indent 2 }}
+{{- end }}
+
+{{- if and .Values.storage.data .Values.storage.existingVolumeClaim .Values.storage.existingVolumeClaim.attachments .Values.storage.existingVolumeClaim.attachments.claimName }}
+{{- printf "\n⚠️  WARNING: Inconsistent storage config!" | indent 2 }}
+{{- printf "\n   data StatefulSet + attachments external PVC" | indent 2 }}
+{{- printf "\n   Use both external OR both StatefulSet" | indent 2 }}
+{{- end }}
+
 You have named your release: {{ .Release.Name }}.
 
 Vaultwarden is accessible here: {{ .Values.ingress.hostname }}
