@@ -296,7 +296,8 @@ storage:
 
   ## @param storage.data Data directory configuration, refer to values.yaml for parameters.
   ##
-  data: {}
+  # Don't forget to add {} after data: and attachments when using existingVolumeClaim
+  data:
     name: "vaultwarden-data"
     size: "15Gi"
     class: ""
@@ -307,7 +308,7 @@ storage:
   ## @param storage.attachments Attachments directory configuration, refer to values.yaml for parameters.
   ## By default, attachments/ is located inside the data directory.
   ##
-  attachments: {}
+  attachments:
     name: "vaultwarden-attachments"
     size: "20Gi"
     class: ""
