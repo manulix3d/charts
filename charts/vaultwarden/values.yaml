@@ -286,6 +286,7 @@ storage:
   ## a value is set here
   ##
   existingVolumeClaim:
+    enabled: false
     data: {}
   #     claimName: "vaultwarden-data-pvc"
   #     path: "/data"
