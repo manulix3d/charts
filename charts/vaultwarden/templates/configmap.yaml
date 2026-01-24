@@ -34,11 +34,25 @@ data:
   SMTP_ACCEPT_INVALID_HOSTNAMES: {{ .Values.smtp.acceptInvalidHostnames | quote }}
   SMTP_ACCEPT_INVALID_CERTS: {{ .Values.smtp.acceptInvalidCerts | quote }}
   {{- end }}
-  {{- if .Values.storage.data }}
+  {{- if and .Values.storage.data .Values.storage.data.path }}
   DATA_FOLDER: {{ default "/data" .Values.storage.data.path | quote }}
   {{- end }}
-  {{- if .Values.storage.attachments }}
+  {{- if and .Values.storage.attachments .Values.storage.attachments.path }}
   ATTACHMENTS_FOLDER: {{ default "/data/attachments" .Values.storage.attachments.path | quote }}
+  {{- end }}
+
+  {{- if and .Values.storage.existingVolumeClaim .Values.storage.existingVolumeClaim.data .Values.storage.existingVolumeClaim.data.path }}
+  DATA_FOLDER: {{ .Values.storage.existingVolumeClaim.data.path | quote }}
+  {{- end }}
+  {{- if and .Values.storage.existingVolumeClaim .Values.storage.existingVolumeClaim.attachments .Values.storage.existingVolumeClaim.attachments.path }}
+  ATTACHMENTS_FOLDER: {{ .Values.storage.existingVolumeClaim.attachments.path | quote }}
+  {{- end }}
+
+  {{- if and (not .Values.storage.data) (not .Values.storage.existingVolumeClaim.data) }}
+  DATA_FOLDER: "/data"
+  {{- end }}
+  {{- if and (not .Values.storage.attachments) (not .Values.storage.existingVolumeClaim.attachments) }}
+  ATTACHMENTS_FOLDER: "/data/attachments"
   {{- end }}
   ROCKET_ADDRESS: {{ .Values.rocket.address | quote }}
   ROCKET_PORT: {{ .Values.rocket.port | quote }}
