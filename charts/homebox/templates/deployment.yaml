@@ -81,6 +81,23 @@ spec:
                   name: {{ .Values.oidc.client.existingSecret }}
                   key: {{ .Values.oidc.client.clientSecretKey }}
             {{- end }}
+            {{- if .Values.mail.secret }}
+            - name: HBOX_MAILER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.usernameKey }}
+            - name: HBOX_MAILER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.passwordKey }}
+            - name: HBOX_MAILER_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.fromKey }}
+            {{- end }}
           {{- end }}
           ports:
             - name: http

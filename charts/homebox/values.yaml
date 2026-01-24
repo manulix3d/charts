@@ -50,11 +50,12 @@ env:
 
   HBOX_MAILER_HOST: ""
   HBOX_MAILER_PORT: 587
+  # If you want to store username password and from fields in your own secret comment out the following three variables
   HBOX_MAILER_USERNAME: ""
   HBOX_MAILER_PASSWORD: ""
   HBOX_MAILER_FROM: ""
 
-  HBOX_DATABASE_DRIVER: sqlite3
+  HBOX_DATABASE_DRIVER: sqlite3 # Or postgres
   HBOX_DATABASE_SQLITE_PATH: ./.data/homebox.db?_pragma=busy_timeout=999&_pragma=journal_mode=WAL&_fk=1
   HBOX_DATABASE_SSL_MODE: disable
 
@@ -98,6 +99,13 @@ oidc:
     existingSecret: hbox-oidc-secret
     clientIDKey: hbox-client-id
     clientSecretKey: hbox-client-secret
+
+mail:
+  secret: "" # Leave empty if directly set under env otherwise set your secret name
+  usernameKey: "mail-user"
+  passwordKey: "mail-password"
+  fromKey: "mail-from"
+
 # This define the PostgreSQL server configuration that will be deployed using Helm subchart.
 # Set the .enabled key to false to use an external PostgreSQL server.
 # For more information checkout: https://artifacthub.io/packages/helm/bitnami/postgresql
