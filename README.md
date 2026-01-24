@@ -16,7 +16,7 @@ helm repo update
 | manulix3d/cloudnative-pg | 0.27.0        | 1.28.0      | CloudNativePG Operator Helm Chart                                                     |
 | manulix3d/homebox        | 0.3.6         | 0.22.3      | A Helm chart for HomeBox, the inventory and organization system built for the Home Us |
 | manulix3d/pocket-id      | 2.0.2         | v2.2.0      | pocket-id is a simple and easy-to-use OIDC provider that allows users to authenticate |
-| manulix3d/vaultwarden    | 0.35.5        | 1.35.2      | vaultwarden is an unofficial Bitwarden-compatible server written in Rust              |
+| manulix3d/vaultwarden    | 0.35.6        | 1.35.2      | vaultwarden is an unofficial Bitwarden-compatible server written in Rust              |
 
 ## Search Charts
 ```bash
