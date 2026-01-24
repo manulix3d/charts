@@ -13,6 +13,6 @@ maintainers:
 - name: manulix3d
   email: manulix3d@manulix3d.de
   url: https://charts.manulix3d.de
-version: 0.35.5
+version: 0.35.6
 icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/refs/heads/main/resources/vaultwarden-icon.svg
 kubeVersion: ">=1.12.0-0"
