@@ -208,6 +208,23 @@ entries:
   homebox:
   - apiVersion: v2
     appVersion: v0.22.3
+    created: "2026-01-24T21:02:28.54871033Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.7.27
+    description: A Helm chart for HomeBox, the inventory and organization system built
+      for the Home User.
+    digest: 1485edeac21cb6a44895aaafaaaf469c0099907f76f94ce397d20b88bc8e4f57
+    icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
+    name: homebox
+    type: application
+    urls:
+    - https://charts.manulix3d.de/homebox-0.3.9.tgz
+    version: 0.3.9
+  - apiVersion: v2
+    appVersion: v0.22.3
     created: "2026-01-24T20:16:52.513731124Z"
     dependencies:
     - condition: postgresql.enabled
@@ -654,4 +671,4 @@ entries:
     urls:
     - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-01-24T20:50:53.679898128Z"
+generated: "2026-01-24T21:02:28.542464857Z"
