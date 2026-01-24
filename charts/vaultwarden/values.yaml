@@ -285,8 +285,8 @@ storage:
   ## attachments PV's. The custom values for data and attachments will be ignored if
   ## a value is set here
   ##
-  # existingVolumeClaim:
-  #   data:
+  existingVolumeClaim:
+    data: {}
   #     claimName: "vaultwarden-data-pvc"
   #     path: "/data"
   #   attachments:
@@ -294,7 +294,7 @@ storage:
   #     path: "/data/attachments"
   ## @param storage.data Data directory configuration, refer to values.yaml for parameters.
   ##
-  # data:
+  data: {}
   #   name: "vaultwarden-data"
   #   size: "15Gi"
   #   class: ""
@@ -305,7 +305,7 @@ storage:
   ## @param storage.attachments Attachments directory configuration, refer to values.yaml for parameters.
   ## By default, attachments/ is located inside the data directory.
   ##
-  # attachments:
+  attachments: {}
   #   name: "vaultwarden-attachments"
   #   size: "20Gi"
   #   class: ""
