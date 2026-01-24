@@ -1,11 +1,54 @@
 {{- if eq (include "vaultwarden.resourceType" .) "Deployment" }}
-{{- range $pvc := (fromYaml (include "vaultwarden.pvcSpec" .)).volumeClaimTemplates }}
+{{- if and (not .Values.storage.existingVolumeClaim.enabled) .Values.storage.data }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
-{{- $newName := printf "%s-%s-0" $pvc.metadata.name $.Release.Name }}
-{{- $newPvc := merge (dict "metadata" (dict "name" $newName)) $pvc }}
-{{- $newPvc := merge (dict "metadata" (dict "namespace" $.Release.Namespace)) $newPvc }}
-{{ $newPvc | toYaml }}
+metadata:
+  name: {{ .Values.storage.data.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: vaultwarden
+    {{- include "vaultwarden.labels" . | nindent 4 }}
+  annotations:
+    meta.helm.sh/release-name: {{ .Release.Name | quote }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace | quote }}
+    {{- if .Values.storage.data.keepPvc }}
+    helm.sh/resource-policy: keep
+    {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.storage.data.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.data.size }}
+  {{- with .Values.storage.data.class }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+{{- end }}
+{{- if and (not .Values.storage.existingVolumeClaim.enabled) .Values.storage.attachments }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.storage.attachments.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: vaultwarden
+    {{- include "vaultwarden.labels" . | nindent 4 }}
+  annotations:
+    meta.helm.sh/release-name: {{ .Release.Name | quote }}
+    meta.helm.sh/release-namespace: {{ .Release.Namespace | quote }}
+    {{- if .Values.storage.attachments.keepPvc }}
+    helm.sh/resource-policy: keep
+    {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.storage.attachments.accessMode | default "ReadWriteOnce" | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.attachments.size }}
+  {{- with .Values.storage.attachments.class }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
 {{- end }}
 {{- end }}
