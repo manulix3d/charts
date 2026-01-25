@@ -287,7 +287,7 @@ storage:
   ##
   existingVolumeClaim:
     enabled: false
-    data: {}
+  #  data: {}
   #     claimName: "vaultwarden-data-pvc"
   #     path: "/data"
   #   attachments:
@@ -295,25 +295,24 @@ storage:
   #     path: "/data/attachments"
   ## @param storage.data Data directory configuration, refer to values.yaml for parameters.
   ##
-  data: {}
-  #   name: "vaultwarden-data"
-  #   size: "15Gi"
-  #   class: ""
-  #   path: "/data"
-  #   keepPvc: true
-  #   accessMode: "ReadWriteOnce"
+  data:
+    name: "data"
+    size: "15Gi"
+    class: ""
+    path: "/data"
+    keepPvc: true
+    accessMode: "ReadWriteOnce"
 
   ## @param storage.attachments Attachments directory configuration, refer to values.yaml for parameters.
   ## By default, attachments/ is located inside the data directory.
   ##
-  attachments: {}
-  #   name: "vaultwarden-attachments"
-  #   size: "20Gi"
-  #   class: ""
-  #   path: /files
-  #   keepPvc: true
-  #   accessMode: "ReadWriteOnce"
-
+  attachments:
+    name: "attachments"
+    size: "20Gi"
+    class: ""
+    path: /files
+    keepPvc: true
+    accessMode: "ReadWriteOnce"
   ## @param webVaultEnabled Enable Web Vault
   ##
 webVaultEnabled: "true"

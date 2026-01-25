@@ -1,9 +1,9 @@
 {{- define "vaultwarden.pvcSpec" }}
 {{- if or .Values.storage.data .Values.storage.attachments -}}
 volumeClaimTemplates:
-  {{- with .Values.storage.data }}
+  {{- if .Values.storage.data }}
   - metadata:
-      name: {{ .name }}
+      name: {{ include "vaultwarden.fullname" . }}-{{ .Values.storage.data.name }}
       labels:
         app.kubernetes.io/component: vaultwarden
         {{- include "vaultwarden.labels" $ | nindent 8 }}
@@ -25,7 +25,7 @@ volumeClaimTemplates:
   {{- end }}
   {{- with .Values.storage.attachments }}
   - metadata:
-      name: {{ .name }}
+      name: {{ include "vaultwarden.fullname" . }}-{{ .Values.storage.attachments.name }}
       labels:
         app.kubernetes.io/component: vaultwarden
         {{- include "vaultwarden.labels" $ | nindent 8 }}

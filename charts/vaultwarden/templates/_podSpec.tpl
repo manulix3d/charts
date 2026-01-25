@@ -170,11 +170,11 @@ containers:
         mountPath: {{ include "vaultwarden.attachmentsPath" . }}
       {{- else if or .Values.storage.data .Values.storage.attachments }}
       {{- if .Values.storage.data }}
-      - name: vaultwarden-data
+      - name: {{ include "vaultwarden.fullname" . }}-{{ .Values.storage.data.name }}
         mountPath: {{ .Values.storage.data.path | default "/data" }}
       {{- end }}
       {{- if .Values.storage.attachments }}
-      - name: vaultwarden-attachments
+      - name: {{ include "vaultwarden.fullname" . }}-{{ .Values.storage.attachments.name }}
         mountPath: {{ .Values.storage.attachments.path | default "/data/attachments" }}
       {{- end }}
       {{- end }}
