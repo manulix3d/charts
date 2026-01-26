@@ -1,0 +1,157 @@
+{{- if eq .Values.kind "StatefulSet" }}
+{{- $fullname := (include "homebox.fullname" .) -}}
+{{- include "homebox.validatePersistence" . }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $fullname }}
+  labels:
+    {{- include "homebox.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ $fullname }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "homebox.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "homebox.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "homebox.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "homebox.fullname" . }}
+          {{- if and (eq .Values.env.HBOX_DATABASE_DRIVER "postgres") (not .Values.postgresql.enabled) }}
+          env:
+            {{- if and .Values.externalPostgresql.auth.username (kindIs "map" .Values.externalPostgresql.auth.username) }}
+            - name: HBOX_DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalPostgresql.auth.username.existingSecret }}
+                  key: {{ .Values.externalPostgresql.auth.username.existingSecretKey }}
+            {{- end }}
+            {{- if and .Values.externalPostgresql.auth.password (kindIs "map" .Values.externalPostgresql.auth.password) }}
+            - name: HBOX_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalPostgresql.auth.password.existingSecret }}
+                  key: {{ .Values.externalPostgresql.auth.password.existingSecretKey }}
+            {{- end }}
+            {{- if and .Values.externalPostgresql.auth.database (kindIs "map" .Values.externalPostgresql.auth.database) }}
+            - name: HBOX_DATABASE_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.externalPostgresql.auth.database.existingSecret }}
+                  key: {{ .Values.externalPostgresql.auth.database.existingSecretKey }}
+            {{- end }}
+            {{- if .Values.oidc.client.useSecret }}
+            - name: HBOX_OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.oidc.client.existingSecret }}
+                  key: {{ .Values.oidc.client.clientIDKey }}
+            - name: HBOX_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.oidc.client.existingSecret }}
+                  key: {{ .Values.oidc.client.clientSecretKey }}
+            {{- end }}
+            {{- if .Values.mail.secret }}
+            - name: HBOX_MAILER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.usernameKey }}
+            - name: HBOX_MAILER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.passwordKey }}
+            - name: HBOX_MAILER_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mail.secret }}
+                  key: {{ .Values.mail.fromKey }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - mountPath: {{ .Values.env.HBOX_STORAGE_DATA | default "/data" | quote }}
+              name: data
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          {{- include "homebox.selectorLabels" . | nindent 10 }}
+          app.kubernetes.io/component: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.persistence.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+{{- end }}
