@@ -1,12 +1,13 @@
 apiVersion: v2
 name: homebox
-description: A Helm chart for HomeBox, the inventory and organization system built for the Home User.
+description: A Helm chart for HomeBox, the inventory and organization system
+  built for the Home User.
 icon: https://raw.githubusercontent.com/sysadminsmedia/homebox/refs/heads/main/docs/public/lilbox.svg
 dependencies:
-- name: postgresql
-  version: 16.7.27
-  repository: oci://registry-1.docker.io/bitnamicharts
-  condition: postgresql.enabled
+  - name: postgresql
+    version: 16.7.27
+    repository: oci://registry-1.docker.io/bitnamicharts
+    condition: postgresql.enabled
 type: application
-version: 0.4.1
-appVersion: v0.22.3
+version: 0.4.2
+appVersion: v0.23.0
