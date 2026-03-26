@@ -15,7 +15,7 @@ helm repo update
 | manulix3d/authentik      | 2026.2.1      | 2026.2.1    | authentik is an open-source Identity Provider focused on flexibility and versatility  |
 | manulix3d/cloudnative-pg | 0.27.1        | 1.28.1      | CloudNativePG Operator Helm Chart                                                     |
 | manulix3d/homebox        | 0.4.6         | v0.24.2     | A Helm chart for HomeBox, the inventory and organization system built for the Home Us |
-| manulix3d/pocket-id      | 2.0.4         | v2.4.0      | pocket-id is a simple and easy-to-use OIDC provider that allows users to authenticate |
+| manulix3d/pocket-id      | 2.0.5         | v2.5.0      | pocket-id is a simple and easy-to-use OIDC provider that allows users to authenticate |
 | manulix3d/vaultwarden    | 0.36.2        | 1.35.4      | vaultwarden is an unofficial Bitwarden-compatible server written in Rust              |
 
 ## Search Charts
