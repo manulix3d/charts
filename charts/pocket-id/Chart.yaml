@@ -8,8 +8,8 @@ description: >
   with their passkeys to your services.
 home: https://pocket-id.org
 icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
-version: 2.0.6
-appVersion: v2.6.0
+version: 2.0.7
+appVersion: v2.6.1
 sources:
   - https://github.com/pocket-id/pocket-id
 keywords:
