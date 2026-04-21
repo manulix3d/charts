@@ -1375,6 +1375,31 @@ entries:
     version: 0.3.1
   pocket-id:
   - apiVersion: v2
+    appVersion: v2.6.1
+    created: "2026-04-21T18:56:58.251899741Z"
+    description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
+      users to authenticate with their passkeys to your services. '
+    digest: d4bc39f4d11b8e59eb1c006fc33fb5e23e502ff2c0959be73dbc2796fc5737d0
+    home: https://pocket-id.org
+    icon: https://raw.githubusercontent.com/manulix3d/charts/main/charts/icons/pocket-id.png
+    keywords:
+    - idp
+    - oidc
+    - passkeys
+    - sso
+    - pocket-id
+    maintainers:
+    - email: manulix3d@manulix3d.de
+      name: manulix3d
+      url: https://charts.manulix3d.de
+    name: pocket-id
+    sources:
+    - https://github.com/pocket-id/pocket-id
+    type: application
+    urls:
+    - https://charts.manulix3d.de/pocket-id-2.0.7.tgz
+    version: 2.0.7
+  - apiVersion: v2
     appVersion: v2.6.0
     created: "2026-04-20T07:53:50.836641542Z"
     description: 'pocket-id is a simple and easy-to-use OIDC provider that allows
@@ -1940,4 +1965,4 @@ entries:
     urls:
     - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-04-20T07:53:50.835502232Z"
+generated: "2026-04-21T18:56:58.250557444Z"
