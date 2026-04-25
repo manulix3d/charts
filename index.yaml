@@ -4,6 +4,85 @@ entries:
   - annotations:
       artifacthub.io/category: security
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Missing type definition for several values.
+      artifacthub.io/images: |
+        - name: authelia/authelia
+          image: ghcr.io/authelia/authelia:4.39.19
+          whitelisted: false
+          platforms:
+            - linux/amd64
+            - linux/arm64
+            - linux/arm/v7
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Repository
+          url: https://charts.authelia.com/
+        - name: OCI registry
+          url: oci://ghcr.io/authelia/chartrepo
+        - name: Website
+          url: https://www.authelia.com/
+        - name: GitHub Repository
+          url: https://github.com/authelia
+      artifacthub.io/maintainers: |
+        - name: James Elliott
+          email: james-d-elliott@users.noreply.github.com
+      artifacthub.io/screenshots: |
+        - title: User Interface
+          url: https://www.authelia.com/images/dark.png
+        - title: Second Factor Methods
+          url: https://www.authelia.com/images/2fa-methods-dark.png
+      artifacthub.io/signKey: |
+        fingerprint: 192085915BD608A458AC58DCE461FA1531286EEA
+        url: https://keybase.io/authelia/pgp_keys.asc
+    apiVersion: v2
+    appVersion: 4.39.19
+    created: "2026-04-25T18:34:18.240072403Z"
+    description: Authelia is a Single Sign-On Multi-Factor portal for web apps
+    digest: 247050e8f7c5ad55d5c7deb66c287241de934954b86db7ed1573d19b7e593620
+    home: https://www.authelia.com
+    icon: https://avatars2.githubusercontent.com/u/59122411?s=200&v=4
+    keywords:
+    - FOSS
+    - Free and Open-Source Software
+    - golang
+    - Modern
+    - Declarative
+    - SSO
+    - Single Sign-On
+    - Authentication
+    - Security
+    - Identity
+    - IDP
+    - Two-Factor
+    - Multi-Factor
+    - YubiKey
+    - WebAuthn
+    - Passkeys
+    - Duo
+    - TOTP
+    - Time-based One Time Password
+    - Push Notifications
+    - LDAP
+    - OAuth 2.0
+    - OpenID Connect 1.0
+    - OpenID Certified™
+    kubeVersion: '>= 1.30.0-0'
+    maintainers:
+    - email: james-d-elliott@users.noreply.github.com
+      name: james-d-elliott
+      url: https://github.com/james-d-elliott
+    name: authelia
+    sources:
+    - https://github.com/authelia/chartrepo/tree/master/charts/authelia
+    - https://www.github.com/authelia/authelia
+    type: application
+    urls:
+    - https://charts.manulix3d.de/authelia-0.11.4.tgz
+    version: 0.11.4
+  - annotations:
+      artifacthub.io/category: security
+      artifacthub.io/changes: |
         - kind: removed
           description: Removed subcharts.
       artifacthub.io/images: |
@@ -1680,6 +1759,29 @@ entries:
     version: 2.0.0
   vaultwarden:
   - apiVersion: v2
+    appVersion: 1.35.8
+    created: "2026-04-25T18:34:18.242462728Z"
+    description: vaultwarden is an unofficial Bitwarden-compatible server written
+      in Rust
+    digest: 27eaf70148ead8c12958c091595c888c34442077b9709798b85a6c441f4dc691
+    icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/refs/heads/main/resources/vaultwarden-icon.svg
+    keywords:
+    - Rust
+    - vaultwarden
+    kubeVersion: '>=1.12.0-0'
+    maintainers:
+    - email: manulix3d@manulix3d.de
+      name: manulix3d
+      url: https://charts.manulix3d.de
+    name: vaultwarden
+    sources:
+    - https://github.com/manulix3d/charts/tree/main/charts/vaultwarden
+    - https://github.com/dani-garcia/vaultwarden
+    type: application
+    urls:
+    - https://charts.manulix3d.de/vaultwarden-0.36.6.tgz
+    version: 0.36.6
+  - apiVersion: v2
     appVersion: 1.35.7
     created: "2026-04-14T07:20:28.141768162Z"
     description: vaultwarden is an unofficial Bitwarden-compatible server written
@@ -2069,4 +2171,4 @@ entries:
     urls:
     - https://charts.manulix3d.de/vaultwarden-0.34.4.tgz
     version: 0.34.4
-generated: "2026-04-25T07:04:06.746582907Z"
+generated: "2026-04-25T18:34:18.233195569Z"
