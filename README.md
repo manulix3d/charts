@@ -11,7 +11,7 @@ helm repo update
 
 | Chart                    | Chart Version | App Version | Description                                                                           |
 | :----------------------- | :------------ | :---------- | ------------------------------------------------------------------------------------- |
-| manulix3d/authelia       | 0.11.4        | 4.39.19     | Authelia is a Single Sign-On Multi-Factor portal for web apps                         |
+| manulix3d/authelia       | 0.11.5        | 4.39.19     | Authelia is a Single Sign-On Multi-Factor portal for web apps                         |
 | manulix3d/authentik      | 2026.2.2      | 2026.2.2    | authentik is an open-source Identity Provider focused on flexibility and versatility  |
 | manulix3d/cloudnative-pg | 0.28.0        | 1.29.0      | CloudNativePG Operator Helm Chart                                                     |
 | manulix3d/homebox        | 0.4.7         | v0.25.0     | A Helm chart for HomeBox, the inventory and organization system built for the Home Us |
